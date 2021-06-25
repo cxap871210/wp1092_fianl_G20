@@ -1,17 +1,21 @@
 import { Router } from 'express';
 import db from '../../models/db';
+import bcrypt from 'bcrypt';
 
 const router = Router();
+const saltRounds = 10;
 
 /*-----------------------------------------------*/
 router.post('/sign-up', async function (req, res) {
-  const { name, password } = req.body;
+  const { name, password, email } = req.body;
   const exist = await db.UserModel.findOne({ name: name })
 
   if(!exist){
-    const user = await new db.UserModel({ name: name, password: password, activities:[] });
-    await user.save();
-    res.send({ status: true });
+    bcrypt.hash(password, saltRounds, async function(err, hash) {
+      const user = await new db.UserModel({ name: name, password: hash, email: email, activities:[] });
+      await user.save();
+      res.send({ status: true });
+    });
   } else{
     res.send({ status: false });
   }
@@ -19,12 +23,18 @@ router.post('/sign-up', async function (req, res) {
 
 router.get('/sign-in', async function (req, res) {
   const { name, password } = req.query;
-  const exist = await db.UserModel.findOne({ name: name, password: password }).populate('activities');
+  const exist = await db.UserModel.findOne({ name: name }).populate('activities');
 
   if(!exist){
     res.send({ status: false, activities:[] });
   } else{
-    res.send({ status: true, activities: exist.activities});
+    bcrypt.compare(password, exist.password, function(err, result) {
+      if(result === true){
+        res.send({ status: true, activities: exist.activities});
+      } else{
+        res.send({ status: false, activities:[] });
+      }
+    });
   }
 });
 
@@ -207,6 +217,19 @@ router.get('/result', async function (req, res) {
   time_list.push(activity.start_date, activity.end_date, activity.start_time, activity.end_time);
 
   res.send({ available_list: available_list, name_list: name_list, time_list: time_list });
+});
+
+router.get('/get-mails', async function (req, res) {
+  const { attendCode } = req.query;
+  const exist = await db.ActivityModel.findOne({ code: attendCode }).populate('users');
+
+  let mails = []
+  exist.users.map((e) => (
+    mails.push(e.email) 
+  ))
+
+  res.send({ mails: mails, actName: exist.name});
+  
 });
 /*-----------------------------------------------*/
 

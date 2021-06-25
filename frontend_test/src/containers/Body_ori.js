@@ -44,7 +44,6 @@ const Body = () => {
 
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
   const [attendCode, setAttendCode] = useState('');
 
   const [activityName, setActivityName] = useState('');
@@ -94,14 +93,12 @@ const Body = () => {
     } = await axios.post('/api/sign-up', {
       name,
       password,
-      email,
     });
 
     console.log(status);
   };
 
   const handleSignIn = async () => {
-    
     const {
       data: { status, activities },
     } = await axios.get('/api/sign-in', { params: { name, password } });
@@ -190,7 +187,7 @@ const Body = () => {
       let startD2 = new Date(startD[0]+ "/" + startD[1] + "/" + startD[2])
       startD2.setDate(startD2.getDate() + i + 1); 
       startD2 = startD2.toISOString().substring(0, 10) ;
-      console.log(startD2) ;
+      // console.log(startD2) ;
 
       let startT = parseInt(time_list[2].split(":")[0]) + parseInt(time_list[2].split(":")[1])/60 ;
       // console.log(startT);
@@ -212,7 +209,7 @@ const Body = () => {
           if(toM === 0){toM = "00"}
           let toT =  parseInt(startT + 0.5 * j + cnt * 0.5) + ":" + toM;
 
-          console.log(startD2 + ", " + fromT + " ~ " + toT) ;
+          // console.log(startD2 + ", " + fromT + " ~ " + toT) ;
           temp.push(startD2 + ", " + fromT + " ~ " + toT) ;
         }
         
@@ -233,7 +230,7 @@ const Body = () => {
         let startD2 = new Date(startD[0]+ "/" + startD[1] + "/" + startD[2])
         startD2.setDate(startD2.getDate() + i + 1); 
         startD2 = startD2.toISOString().substring(0, 10) ;
-        console.log(startD2) ;
+        // console.log(startD2) ;
 
         let startT = parseInt(time_list[2].split(":")[0]) + parseInt(time_list[2].split(":")[1])/60 ;
         // console.log(startT);
@@ -255,7 +252,7 @@ const Body = () => {
             if(toM === 0){toM = "00"}
             let toT =  parseInt(startT + 0.5 * j + cnt * 0.5) + ":" + toM;
 
-            console.log(startD2 + ", " + fromT + " ~ " + toT) ;
+            // console.log(startD2 + ", " + fromT + " ~ " + toT) ;
             temp2.push(startD2 + ", " + fromT + " ~ " + toT) ;
           }
           
@@ -287,7 +284,7 @@ const Body = () => {
     
     let MA = mustAppear.split(",") ;
     if (MA.length === 1 && MA[0] === ''){MA = name_list} ;
-    console.log(MA) ;
+    // console.log(MA) ;
   
 
 
@@ -297,7 +294,7 @@ const Body = () => {
       let startD2 = new Date(startD[0]+ "/" + startD[1] + "/" + startD[2])
       startD2.setDate(startD2.getDate() + i + 1); 
       startD2 = startD2.toISOString().substring(0, 10) ;
-      console.log(startD2) ;
+      // console.log(startD2) ;
 
       let startT = parseInt(time_list[2].split(":")[0]) + parseInt(time_list[2].split(":")[1])/60 ;
       // console.log(startT);
@@ -308,7 +305,7 @@ const Body = () => {
         let fine = true;
         while(j + cnt < available_list[i].length && fine){
           // console.log(j+cnt) ;
-          console.log(MA.length) ;
+          // console.log(MA.length) ;
           for(let k = 0 ; k < MA.length ; k++){
             if(available_list[i][j+cnt].includes(MA[k]) === false){
               fine = false ;
@@ -330,7 +327,7 @@ const Body = () => {
           if(toM === 0){toM = "00"}
           let toT =  parseInt(startT + 0.5 * j + cnt * 0.5) + ":" + toM;
 
-          console.log(startD2 + ", " + fromT + " ~ " + toT) ;
+          // console.log(startD2 + ", " + fromT + " ~ " + toT) ;
           temp.push(startD2 + ", " + fromT + " ~ " + toT) ;
         }
         
@@ -341,55 +338,6 @@ const Body = () => {
 
     console.log(temp) ;
     setFilterDisplay(temp) ;
-
-  };
-
-  
-
-  const handleEmail = async () => {
-
-    const {
-      data: { mails, actName },
-    } = await axios.get('/api/get-mails', { params: { attendCode } });
-
-    // console.log(mails);
-  
-    let content = "The arrangement of activity [ " + actName + " ] is done! <br><br>Available times are as below:<br><br>";
-    for(let i = 0 ; i < result.length ; i++){
-      content = content + result[i] + "<br>" ;
-    }
-
-    // console.log(content) ;
-
-    for(let i = 0 ; i < mails.length ; i ++){
-      if(i !== mails.length -1){
-        window.Email.send({
-          Host : "smtp.gmail.com",
-          Username : "cxapwebfinal@gmail.com",
-          Password : "password1092",
-          To : mails[i],
-          From : "Web1092FinalG24<cxapwebfinal@gmail.com>",
-          Subject : "偽 when2meet 活動成立通知",
-          Body : content
-        })
-      }
-      else{
-        window.Email.send({
-          Host : "smtp.gmail.com",
-          Username : "cxapwebfinal@gmail.com",
-          Password : "password1092",
-          To : mails[i],
-          From : "Web1092FinalG24<cxapwebfinal@gmail.com>",
-          Subject : "偽 when2meet 活動成立通知",
-          Body : content
-        })
-        .then(
-          message => alert(message)
-        );
-      }
-
-    }
-
 
   };
 
@@ -412,13 +360,6 @@ const Body = () => {
           style={{ width: 240 }}
           value={password}
           onChange={handleChange(setPassword)}
-        />
-        <TextField
-          className={classes.input}
-          placeholder="Email"
-          style={{ width: 240 }}
-          value={email}
-          onChange={handleChange(setEmail)}
         />
         <Button
           className={classes.button}
@@ -655,15 +596,6 @@ const Body = () => {
         >
           result
         </Button>
-
-        <Button
-          className={classes.button}
-          variant="contained"
-          color="primary"
-          onClick={handleEmail}
-        >
-          Email
-        </Button>
       </Row>
       <Row>
         <h3>Min Time Interval: (hrs)</h3>
@@ -692,7 +624,9 @@ const Body = () => {
         </Button>
 
       </Row>
+
       
+    
       <ContentPaper variant="outlined">
         <h2>results for all:</h2>
         {result.map((e) => (
@@ -707,9 +641,6 @@ const Body = () => {
           <h3>{e}</h3>
         ))}
       </ContentPaper>
-  
-      
-    
     </Wrapper>
   );
 };
