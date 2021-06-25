@@ -52,21 +52,33 @@ const Body = () => {
   const [endDate, setEndDate] = useState('');
   const [endTime, setEndTime] = useState('');
 
+  const [result, setResult] = useState([]);
+  const [result2, setResult2] = useState([]);
+  const [filterDisplay, setFilterDisplay] = useState([]);
+  const [actNames, setActNames] = useState([]);
+  const [actTimes, setActTimes] = useState([]);
+
+  const [timeInterval, setTimeInterval] = useState(0) ;
+  const [mustAppear, setMustAppear] = useState("");
+
 
   const [T0_0, setT0_0] = useState();
   const [T0_1, setT0_1] = useState();
   const [T0_2, setT0_2] = useState();
   const [T0_3, setT0_3] = useState();
+  const [T0_4, setT0_4] = useState();
   
   const [T1_0, setT1_0] = useState();
   const [T1_1, setT1_1] = useState();
   const [T1_2, setT1_2] = useState();
   const [T1_3, setT1_3] = useState();
+  const [T1_4, setT1_4] = useState();
   
   const [T2_0, setT2_0] = useState();
   const [T2_1, setT2_1] = useState();
   const [T2_2, setT2_2] = useState();
   const [T2_3, setT2_3] = useState();
+  const [T2_4, setT2_4] = useState();
 
   
 
@@ -132,17 +144,17 @@ const Body = () => {
   const handleEdit = async () => {
 
     const {
-      data: { result },
+      data: { status, result, time_list },
     } = await axios.get('/api/edit-time', { params: { name, attendCode } });
 
-    console.log(result);
+    console.log(status, result, time_list);
   };
 
   const handleSubmit = async () => {
     
-    let time =    [[T0_0, T0_1, T0_2, T0_3],
-                   [T1_0, T1_1, T1_2, T1_3],
-                   [T2_0, T2_1, T2_2, T2_3]] ;
+    let time =    [[T0_0, T0_1, T0_2, T0_3, T0_4],
+                   [T1_0, T1_1, T1_2, T1_3, T1_4],
+                   [T2_0, T2_1, T2_2, T2_3, T2_4]] ;
     console.log(time);
 
     const {
@@ -159,11 +171,178 @@ const Body = () => {
   const handleResult = async () => {
 
     const {
-      data: { result },
+      data: { available_list, name_list, time_list },
     } = await axios.get('/api/result', { params: { attendCode } });
 
-    console.log(result);
+    // console.log(available_list, name_list, time_list);
+
+
+    let temp = []
+    let all_len = name_list.length ;
+
+
+    for(let i = 0 ; i < available_list.length ;  i++){
+
+      let startD = time_list[0].split("-");
+      let startD2 = new Date(startD[0]+ "/" + startD[1] + "/" + startD[2])
+      startD2.setDate(startD2.getDate() + i + 1); 
+      startD2 = startD2.toISOString().substring(0, 10) ;
+      // console.log(startD2) ;
+
+      let startT = parseInt(time_list[2].split(":")[0]) + parseInt(time_list[2].split(":")[1])/60 ;
+      // console.log(startT);
+      
+      for (let j = 0 ; j < available_list[i].length ; j++){
+        let cnt = 0 ;
+        while(j + cnt < available_list[i].length && available_list[i][j+cnt].length === all_len){
+          // console.log(j+cnt) ;
+          cnt = cnt + 1 ;
+        }
+
+        if(cnt !== 0){
+          
+          let fromM = (startT + 0.5 * j) % 1 * 60;
+          if(fromM === 0){fromM = "00"}
+          let fromT  = parseInt(startT + 0.5 * j ) + ":" + fromM;
+
+          let toM = (startT + 0.5 * j + cnt * 0.5) % 1 * 60;
+          if(toM === 0){toM = "00"}
+          let toT =  parseInt(startT + 0.5 * j + cnt * 0.5) + ":" + toM;
+
+          // console.log(startD2 + ", " + fromT + " ~ " + toT) ;
+          temp.push(startD2 + ", " + fromT + " ~ " + toT) ;
+        }
+        
+        j = j + cnt ;
+      }
+
+    }
+
+    console.log(temp) ;
+    setResult(temp) ;
+
+    if(all_len > 1){
+      let temp2 = [];
+
+      for(let i = 0 ; i < available_list.length ;  i++){
+
+        let startD = time_list[0].split("-");
+        let startD2 = new Date(startD[0]+ "/" + startD[1] + "/" + startD[2])
+        startD2.setDate(startD2.getDate() + i + 1); 
+        startD2 = startD2.toISOString().substring(0, 10) ;
+        // console.log(startD2) ;
+
+        let startT = parseInt(time_list[2].split(":")[0]) + parseInt(time_list[2].split(":")[1])/60 ;
+        // console.log(startT);
+        
+        for (let j = 0 ; j < available_list[i].length ; j++){
+          let cnt = 0 ;
+          while(j + cnt < available_list[i].length && available_list[i][j+cnt].length === all_len - 1){
+            // console.log(j+cnt) ;
+            cnt = cnt + 1 ;
+          }
+
+          if(cnt !== 0){
+            
+            let fromM = (startT + 0.5 * j) % 1 * 60;
+            if(fromM === 0){fromM = "00"}
+            let fromT  = parseInt(startT + 0.5 * j ) + ":" + fromM;
+
+            let toM = (startT + 0.5 * j + cnt * 0.5) % 1 * 60;
+            if(toM === 0){toM = "00"}
+            let toT =  parseInt(startT + 0.5 * j + cnt * 0.5) + ":" + toM;
+
+            // console.log(startD2 + ", " + fromT + " ~ " + toT) ;
+            temp2.push(startD2 + ", " + fromT + " ~ " + toT) ;
+          }
+          
+          j = j + cnt ;
+        }
+
+      }
+
+      console.log(temp2) ;
+      setResult2(temp2) ;
+
+    }
+    
+
+
+    // handleFilter() ;
+
   };
+
+  const handleFilter = async () => {
+
+    const {
+      data: { available_list, name_list, time_list },
+    } = await axios.get('/api/result', { params: { attendCode } });
+
+
+    let temp = []
+    let all_len = name_list.length ;
+    
+    let MA = mustAppear.split(",") ;
+    if (MA.length === 1 && MA[0] === ''){MA = name_list} ;
+    // console.log(MA) ;
+  
+
+
+    for(let i = 0 ; i < available_list.length ;  i++){
+
+      let startD = time_list[0].split("-");
+      let startD2 = new Date(startD[0]+ "/" + startD[1] + "/" + startD[2])
+      startD2.setDate(startD2.getDate() + i + 1); 
+      startD2 = startD2.toISOString().substring(0, 10) ;
+      // console.log(startD2) ;
+
+      let startT = parseInt(time_list[2].split(":")[0]) + parseInt(time_list[2].split(":")[1])/60 ;
+      // console.log(startT);
+      
+
+      for (let j = 0 ; j < available_list[i].length ; j++){
+        let cnt = 0 ;
+        let fine = true;
+        while(j + cnt < available_list[i].length && fine){
+          // console.log(j+cnt) ;
+          // console.log(MA.length) ;
+          for(let k = 0 ; k < MA.length ; k++){
+            if(available_list[i][j+cnt].includes(MA[k]) === false){
+              fine = false ;
+            }
+          }
+          if(fine === true){
+            cnt = cnt + 1 ;
+          }
+        }
+        
+      
+        if(cnt !== 0 && cnt >= timeInterval * 2){
+          
+          let fromM = (startT + 0.5 * j) % 1 * 60;
+          if(fromM === 0){fromM = "00"}
+          let fromT  = parseInt(startT + 0.5 * j ) + ":" + fromM;
+
+          let toM = (startT + 0.5 * j + cnt * 0.5) % 1 * 60;
+          if(toM === 0){toM = "00"}
+          let toT =  parseInt(startT + 0.5 * j + cnt * 0.5) + ":" + toM;
+
+          // console.log(startD2 + ", " + fromT + " ~ " + toT) ;
+          temp.push(startD2 + ", " + fromT + " ~ " + toT) ;
+        }
+        
+        j = j + cnt ;
+      }
+
+    }
+
+    console.log(temp) ;
+    setFilterDisplay(temp) ;
+
+  };
+
+
+
 
   return (
     <Wrapper>
@@ -367,7 +546,31 @@ const Body = () => {
           style={{ flex: 1 }}
         />
         <h3>|</h3>
-      </Row>   
+      </Row>
+      <Row>
+        <h3>|</h3>
+        <TextField  
+          placeholder="0-4"
+          value={T0_4}
+          onChange={handleChange(setT0_4)}
+          style={{ flex: 1 }}
+        />
+        <h3>|</h3>
+        <TextField  
+          placeholder="1-4"
+          value={T1_4}
+          onChange={handleChange(setT1_4)}
+          style={{ flex: 1 }}
+        />
+        <h3>|</h3>
+        <TextField  
+          placeholder="2-4"
+          value={T2_4}
+          onChange={handleChange(setT2_4)}
+          style={{ flex: 1 }}
+        />
+        <h3>|</h3>
+      </Row>      
       <Row>
         <Button
           className={classes.button}
@@ -394,13 +597,48 @@ const Body = () => {
           result
         </Button>
       </Row>
+      <Row>
+        <h3>Min Time Interval: (hrs)</h3>
+        <TextField  
+          placeholder="Time Interval"
+          value={timeInterval}
+          onChange={handleChange(setTimeInterval)}
+          style={{ flex: 1 }}
+        />
+        <h3>|</h3>
+        <TextField  
+          placeholder="Only Must Appear (Ray,Ben ...)"
+          value={mustAppear}
+          onChange={handleChange(setMustAppear)}
+          style={{ flex: 1 }}
+        />
+      </Row>
+      <Row>
+        <Button
+          className={classes.button}
+          variant="contained"
+          color="primary"
+          onClick={handleFilter}
+        >
+          Filter
+        </Button>
+
+      </Row>
+
       
     
       <ContentPaper variant="outlined">
-        {messages.map((m, i) => (
-          <Typography variant="body2" key={m + i} style={{ color: m.color }}>
-            {m.message}
-          </Typography>
+        <h2>results for all:</h2>
+        {result.map((e) => (
+          <h3>{e}</h3>
+        ))}
+        <h2>results for one absence:</h2>
+        {result2.map((e) => (
+          <h3>{e}</h3>
+        ))}
+        <h2>filter:</h2>
+        {filterDisplay.map((e) => (
+          <h3>{e}</h3>
         ))}
       </ContentPaper>
     </Wrapper>
