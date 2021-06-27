@@ -240,7 +240,7 @@ const Body = () => {
         
         for (let j = 0 ; j < available_list[i].length ; j++){
           let cnt = 0 ;
-          while(j + cnt < available_list[i].length && available_list[i][j+cnt].length === all_len - 1){
+          while(j + cnt < available_list[i].length && available_list[i][j+cnt].length >= all_len - 1){
             // console.log(j+cnt) ;
             cnt = cnt + 1 ;
           }
