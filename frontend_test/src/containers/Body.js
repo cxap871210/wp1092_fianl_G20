@@ -240,7 +240,7 @@ const Body = () => {
         
         for (let j = 0 ; j < available_list[i].length ; j++){
           let cnt = 0 ;
-          while(j + cnt < available_list[i].length && available_list[i][j+cnt].length === all_len - 1){
+          while(j + cnt < available_list[i].length && available_list[i][j+cnt].length >= all_len - 1){
             // console.log(j+cnt) ;
             cnt = cnt + 1 ;
           }
@@ -308,7 +308,7 @@ const Body = () => {
         let fine = true;
         while(j + cnt < available_list[i].length && fine){
           // console.log(j+cnt) ;
-          console.log(MA.length) ;
+          // console.log(MA.length) ;
           for(let k = 0 ; k < MA.length ; k++){
             if(available_list[i][j+cnt].includes(MA[k]) === false){
               fine = false ;
@@ -698,7 +698,7 @@ const Body = () => {
         {result.map((e) => (
           <h3>{e}</h3>
         ))}
-        <h2>results for one absence:</h2>
+        <h2>results for less than one absence:</h2>
         {result2.map((e) => (
           <h3>{e}</h3>
         ))}
