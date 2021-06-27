@@ -2,18 +2,18 @@ import AvailableCalendar from './availableCalendar'
 import NameList from './nameList'
 import React, { useState, useEffect } from 'react'
 
-export default function ViewPage ({ viewEvent, handleBack, allAvailableTime }) {
+export default function ViewPage ({ viewEvent, handleBack, result }) {
   const [list, setList] = useState(null)
   const [showList, setShowList] = useState(false)
   //const [u_users, setU_users] = useState([])
-  const name_list = ['a', 'b', 'c', 'd']
+  //const name_list = ['a', 'b', 'c', 'd']
   const getUserList = (col_id, row_id) => {
     //console.log(allAvailableTime[col_id][row_id])
-    const a_list = allAvailableTime[col_id][row_id]
+    const a_list = result.availableList[col_id][row_id]
     let a = []
     let u = []
     if (a_list !== undefined) {
-      name_list.forEach((name, i) => {
+      result.nameList.forEach((name, i) => {
         if (a_list.includes(name)) {
           a.push(name)
         }
@@ -51,7 +51,7 @@ export default function ViewPage ({ viewEvent, handleBack, allAvailableTime }) {
         <div className='viewPage-calendar'>
           <AvailableCalendar
           viewEvent={viewEvent}
-          allAvailableTime={allAvailableTime}
+          allAvailableTime={result.availableList}
           getUserList={getUserList}/>
         </div>
       </div>

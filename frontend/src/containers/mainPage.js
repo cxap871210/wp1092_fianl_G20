@@ -19,7 +19,9 @@ function MainPage({ setStart, user, setUser }) {
   const [viewEvent, setViewEvent] = useState(null)
   const [availableTime, setAvailableTime] = useState([])
   const [tempAvailableTime, setTempAvailableTime] = useState([])
-  const [allAvailableTime, setAllAvailableTime] = useState([[['a'], ['a', 'b'], ['a', 'b', 'c', 'd'], []], [[], [], [], []]])
+  //const [allAvailableTime, setAllAvailableTime] = useState([])
+  //const [nameList, setNameList] = useState([])
+  const [result, setResult] = useState(null)
 
   const handleSignOut = () => {
     console.log('signout')
@@ -144,6 +146,7 @@ function MainPage({ setStart, user, setUser }) {
     if (status) {
       //setPage('view')
       console.log('submit')
+      openViewPage(curEvent)
     } else {
       alert("Something went wrong, please try again.")
     }
@@ -163,30 +166,6 @@ function MainPage({ setStart, user, setUser }) {
     setAvailableTime(result)
   }
 
-  const getAllTime = async (code) => {
-    const attendCode = code
-    /*const {
-      data: { available_list, name_list, time_list },
-    } = await axios.get('/api/result', { params: { attendCode } });
-*/
-    try {
-      await axios.get('/api/result', { params: { attendCode } })
-      .then(res => {
-        console.log(res.data.available_list)
-      })
-    }
-    catch (error) {
-      if (error.response) {
-        console.log("Request made and server responded")
-      }
-      else if (error.request) {
-        console.log("The request was made but no response was received")
-      }
-    }
-    //console.log('get all available time')
-    //console.log(available_list, name_list, time_list)
-  }
-
   useEffect(() => {
     if (curEvent !== null) {
       getUserTime(curEvent.code)
@@ -197,8 +176,6 @@ function MainPage({ setStart, user, setUser }) {
   useEffect(() => {
     if (availableTime !== [] & curEvent !== null) {
       setPage('edit')
-      //test
-      //setAllAvailableTime(availableTime)
     }
   }, [availableTime])
 
@@ -206,18 +183,37 @@ function MainPage({ setStart, user, setUser }) {
     setCurEvent(event)
   }
 
+
+  const getAllTime = async (code) => {
+    const attendCode = code
+    const {
+      data: { available_list, name_list, time_list },
+    } = await axios.get('/api/result', { params: { attendCode } });
+
+    //setAllAvailableTime(available_list)
+    //setNameList(name_list)
+    setResult({
+      availableList: available_list,
+      nameList: name_list
+    })
+
+    console.log(available_list, name_list, time_list);
+  }
+
   useEffect(() => {
     if (viewEvent !== null) {
-      //getAllTime(viewEvent.code)
-      setPage('view')
+      getAllTime(viewEvent.code)
+      //setPage('view')
     }
   }, [viewEvent])
 
-  /*useEffect(() => {
-    if (allAvailableTime !== [] & viewEvent !== null) {
-      //setPage('view')
+  useEffect(() => {
+    if (result !== null & viewEvent !== null) {
+      console.log(result.availableList)
+      console.log(result.nameList)
+      setPage('view')
     }
-  }, [allAvailableTime])*/
+  }, [result])
 
   const openViewPage = (event) => {
     setViewEvent(event)
@@ -299,7 +295,7 @@ function MainPage({ setStart, user, setUser }) {
           <ViewPage
           viewEvent={viewEvent}
           handleBack={handleBack}
-          allAvailableTime={allAvailableTime}/> :
+          result={result}/> :
           null
         }
       </div>

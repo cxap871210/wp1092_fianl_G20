@@ -68,20 +68,20 @@ const Body = () => {
   const [T0_2, setT0_2] = useState();
   const [T0_3, setT0_3] = useState();
   const [T0_4, setT0_4] = useState();
-  
+
   const [T1_0, setT1_0] = useState();
   const [T1_1, setT1_1] = useState();
   const [T1_2, setT1_2] = useState();
   const [T1_3, setT1_3] = useState();
   const [T1_4, setT1_4] = useState();
-  
+
   const [T2_0, setT2_0] = useState();
   const [T2_1, setT2_1] = useState();
   const [T2_2, setT2_2] = useState();
   const [T2_3, setT2_3] = useState();
   const [T2_4, setT2_4] = useState();
 
-  
+
 
 
   const handleChange = (func) => (event) => {
@@ -101,7 +101,7 @@ const Body = () => {
   };
 
   const handleSignIn = async () => {
-    
+
     const {
       data: { status, activities },
     } = await axios.get('/api/sign-in', { params: { name, password } });
@@ -154,7 +154,7 @@ const Body = () => {
   };
 
   const handleSubmit = async () => {
-    
+
     let time =    [[T0_0, T0_1, T0_2, T0_3, T0_4],
                    [T1_0, T1_1, T1_2, T1_3, T1_4],
                    [T2_0, T2_1, T2_2, T2_3, T2_4]] ;
@@ -188,13 +188,13 @@ const Body = () => {
 
       let startD = time_list[0].split("-");
       let startD2 = new Date(startD[0]+ "/" + startD[1] + "/" + startD[2])
-      startD2.setDate(startD2.getDate() + i + 1); 
+      startD2.setDate(startD2.getDate() + i + 1);
       startD2 = startD2.toISOString().substring(0, 10) ;
       console.log(startD2) ;
 
       let startT = parseInt(time_list[2].split(":")[0]) + parseInt(time_list[2].split(":")[1])/60 ;
       // console.log(startT);
-      
+
       for (let j = 0 ; j < available_list[i].length ; j++){
         let cnt = 0 ;
         while(j + cnt < available_list[i].length && available_list[i][j+cnt].length === all_len){
@@ -203,7 +203,7 @@ const Body = () => {
         }
 
         if(cnt !== 0){
-          
+
           let fromM = (startT + 0.5 * j) % 1 * 60;
           if(fromM === 0){fromM = "00"}
           let fromT  = parseInt(startT + 0.5 * j ) + ":" + fromM;
@@ -215,7 +215,7 @@ const Body = () => {
           console.log(startD2 + ", " + fromT + " ~ " + toT) ;
           temp.push(startD2 + ", " + fromT + " ~ " + toT) ;
         }
-        
+
         j = j + cnt ;
       }
 
@@ -231,22 +231,22 @@ const Body = () => {
 
         let startD = time_list[0].split("-");
         let startD2 = new Date(startD[0]+ "/" + startD[1] + "/" + startD[2])
-        startD2.setDate(startD2.getDate() + i + 1); 
+        startD2.setDate(startD2.getDate() + i + 1);
         startD2 = startD2.toISOString().substring(0, 10) ;
         console.log(startD2) ;
 
         let startT = parseInt(time_list[2].split(":")[0]) + parseInt(time_list[2].split(":")[1])/60 ;
         // console.log(startT);
-        
+
         for (let j = 0 ; j < available_list[i].length ; j++){
           let cnt = 0 ;
-          while(j + cnt < available_list[i].length && available_list[i][j+cnt].length === all_len - 1){
+          while(j + cnt < available_list[i].length && available_list[i][j+cnt].length >== all_len - 1){
             // console.log(j+cnt) ;
             cnt = cnt + 1 ;
           }
 
           if(cnt !== 0){
-            
+
             let fromM = (startT + 0.5 * j) % 1 * 60;
             if(fromM === 0){fromM = "00"}
             let fromT  = parseInt(startT + 0.5 * j ) + ":" + fromM;
@@ -258,7 +258,7 @@ const Body = () => {
             console.log(startD2 + ", " + fromT + " ~ " + toT) ;
             temp2.push(startD2 + ", " + fromT + " ~ " + toT) ;
           }
-          
+
           j = j + cnt ;
         }
 
@@ -268,7 +268,7 @@ const Body = () => {
       setResult2(temp2) ;
 
     }
-    
+
 
 
     // handleFilter() ;
@@ -284,24 +284,24 @@ const Body = () => {
 
     let temp = []
     let all_len = name_list.length ;
-    
+
     let MA = mustAppear.split(",") ;
     if (MA.length === 1 && MA[0] === ''){MA = name_list} ;
     console.log(MA) ;
-  
+
 
 
     for(let i = 0 ; i < available_list.length ;  i++){
 
       let startD = time_list[0].split("-");
       let startD2 = new Date(startD[0]+ "/" + startD[1] + "/" + startD[2])
-      startD2.setDate(startD2.getDate() + i + 1); 
+      startD2.setDate(startD2.getDate() + i + 1);
       startD2 = startD2.toISOString().substring(0, 10) ;
       console.log(startD2) ;
 
       let startT = parseInt(time_list[2].split(":")[0]) + parseInt(time_list[2].split(":")[1])/60 ;
       // console.log(startT);
-      
+
 
       for (let j = 0 ; j < available_list[i].length ; j++){
         let cnt = 0 ;
@@ -318,10 +318,10 @@ const Body = () => {
             cnt = cnt + 1 ;
           }
         }
-        
-      
+
+
         if(cnt !== 0 && cnt >= timeInterval * 2){
-          
+
           let fromM = (startT + 0.5 * j) % 1 * 60;
           if(fromM === 0){fromM = "00"}
           let fromT  = parseInt(startT + 0.5 * j ) + ":" + fromM;
@@ -333,7 +333,7 @@ const Body = () => {
           console.log(startD2 + ", " + fromT + " ~ " + toT) ;
           temp.push(startD2 + ", " + fromT + " ~ " + toT) ;
         }
-        
+
         j = j + cnt ;
       }
 
@@ -344,7 +344,7 @@ const Body = () => {
 
   };
 
-  
+
 
   const handleEmail = async () => {
 
@@ -353,7 +353,7 @@ const Body = () => {
     } = await axios.get('/api/get-mails', { params: { attendCode } });
 
     // console.log(mails);
-  
+
     let content = "The arrangement of activity [ " + actName + " ] is done! <br><br>Available times are as below:<br><br>";
     for(let i = 0 ; i < result.length ; i++){
       content = content + result[i] + "<br>" ;
@@ -512,21 +512,21 @@ const Body = () => {
       </Row>
       <Row>
         <h3>|</h3>
-        <TextField  
+        <TextField
           placeholder="0-0"
           value={T0_0}
           onChange={handleChange(setT0_0)}
           style={{ flex: 1 }}
         />
         <h3>|</h3>
-        <TextField  
+        <TextField
           placeholder="1-0"
           value={T1_0}
           onChange={handleChange(setT1_0)}
           style={{ flex: 1 }}
         />
         <h3>|</h3>
-        <TextField  
+        <TextField
           placeholder="2-0"
           value={T2_0}
           onChange={handleChange(setT2_0)}
@@ -536,21 +536,21 @@ const Body = () => {
       </Row>
       <Row>
         <h3>|</h3>
-        <TextField  
+        <TextField
           placeholder="0-1"
           value={T0_1}
           onChange={handleChange(setT0_1)}
           style={{ flex: 1 }}
         />
         <h3>|</h3>
-        <TextField  
+        <TextField
           placeholder="1-1"
           value={T1_1}
           onChange={handleChange(setT1_1)}
           style={{ flex: 1 }}
         />
         <h3>|</h3>
-        <TextField  
+        <TextField
           placeholder="2-1"
           value={T2_1}
           onChange={handleChange(setT2_1)}
@@ -560,21 +560,21 @@ const Body = () => {
       </Row>
       <Row>
         <h3>|</h3>
-        <TextField  
+        <TextField
           placeholder="0-2"
           value={T0_2}
           onChange={handleChange(setT0_2)}
           style={{ flex: 1 }}
         />
         <h3>|</h3>
-        <TextField  
+        <TextField
           placeholder="1-2"
           value={T1_2}
           onChange={handleChange(setT1_2)}
           style={{ flex: 1 }}
         />
         <h3>|</h3>
-        <TextField  
+        <TextField
           placeholder="2-2"
           value={T2_2}
           onChange={handleChange(setT2_2)}
@@ -584,21 +584,21 @@ const Body = () => {
       </Row>
       <Row>
         <h3>|</h3>
-        <TextField  
+        <TextField
           placeholder="0-3"
           value={T0_3}
           onChange={handleChange(setT0_3)}
           style={{ flex: 1 }}
         />
         <h3>|</h3>
-        <TextField  
+        <TextField
           placeholder="1-3"
           value={T1_3}
           onChange={handleChange(setT1_3)}
           style={{ flex: 1 }}
         />
         <h3>|</h3>
-        <TextField  
+        <TextField
           placeholder="2-3"
           value={T2_3}
           onChange={handleChange(setT2_3)}
@@ -608,28 +608,28 @@ const Body = () => {
       </Row>
       <Row>
         <h3>|</h3>
-        <TextField  
+        <TextField
           placeholder="0-4"
           value={T0_4}
           onChange={handleChange(setT0_4)}
           style={{ flex: 1 }}
         />
         <h3>|</h3>
-        <TextField  
+        <TextField
           placeholder="1-4"
           value={T1_4}
           onChange={handleChange(setT1_4)}
           style={{ flex: 1 }}
         />
         <h3>|</h3>
-        <TextField  
+        <TextField
           placeholder="2-4"
           value={T2_4}
           onChange={handleChange(setT2_4)}
           style={{ flex: 1 }}
         />
         <h3>|</h3>
-      </Row>      
+      </Row>
       <Row>
         <Button
           className={classes.button}
@@ -667,14 +667,14 @@ const Body = () => {
       </Row>
       <Row>
         <h3>Min Time Interval: (hrs)</h3>
-        <TextField  
+        <TextField
           placeholder="Time Interval"
           value={timeInterval}
           onChange={handleChange(setTimeInterval)}
           style={{ flex: 1 }}
         />
         <h3>|</h3>
-        <TextField  
+        <TextField
           placeholder="Only Must Appear (Ray,Ben ...)"
           value={mustAppear}
           onChange={handleChange(setMustAppear)}
@@ -692,7 +692,7 @@ const Body = () => {
         </Button>
 
       </Row>
-      
+
       <ContentPaper variant="outlined">
         <h2>results for all:</h2>
         {result.map((e) => (
@@ -707,9 +707,9 @@ const Body = () => {
           <h3>{e}</h3>
         ))}
       </ContentPaper>
-  
-      
-    
+
+
+
     </Wrapper>
   );
 };

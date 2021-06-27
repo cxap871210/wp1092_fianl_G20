@@ -11,11 +11,12 @@ export default function AvailableCalendar ({ viewEvent, allAvailableTime, getUse
       if (period.length > max) {
         max = period.length
       }
+      //console.log(period)
     });
   });
 
-  const startDate = new Date(viewEvent.start_date)
-  const endDate = new Date(viewEvent.end_date)
+  const startDate = new Date(`${viewEvent.start_date}T00:00:00`)
+  const endDate = new Date(`${viewEvent.end_date}T00:00:00`)
   const duration = moment(endDate).diff(moment(startDate), 'days') + 1
   const minTime = Number(viewEvent.start_time.split(":")[0])
   const maxTime = Number(viewEvent.end_time.split(":")[0])
@@ -33,12 +34,10 @@ export default function AvailableCalendar ({ viewEvent, allAvailableTime, getUse
   const timeToIndex = (time) => {
     const curPeriod = moment(time)
     const col_id = curPeriod.diff(moment(startDate), 'days')
-    //console.log(col_id)
     let curDate = moment(startDate).add(col_id, 'days').toDate()
-    curDate = moment(curDate).add(minTime - 8, 'h').toDate()
+    curDate = moment(curDate).add(minTime, 'h').toDate()
     const minDiff = curPeriod.diff(curDate, 'm')
     const row_id = minDiff / 30
-    //console.log(row_id)
     return {col_id, row_id}
   }
   const [schedule, setSchedule] = useState([])
@@ -52,6 +51,7 @@ export default function AvailableCalendar ({ viewEvent, allAvailableTime, getUse
 
   const renderCustomDateCell = (time, selected, innerRef) => {
     let {col_id, row_id} = timeToIndex(time)
+    //console.log(col_id, row_id)
     const cnt = allAvailableTime[col_id][row_id].length
     //console.log(max)
     if (cnt !== 0) {

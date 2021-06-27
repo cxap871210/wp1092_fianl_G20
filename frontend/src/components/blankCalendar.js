@@ -3,8 +3,8 @@ import ScheduleSelector from 'react-schedule-selector'
 import moment from 'moment'
 
 export default function BlankCalendar ({ curEvent, availableTime, setAvailableTime, setTempAvailableTime }) {
-  const startDate = new Date(curEvent.start_date)
-  const endDate = new Date(curEvent.end_date)
+  const startDate = new Date(`${curEvent.start_date}T00:00:00`)
+  const endDate = new Date(`${curEvent.end_date}T00:00:00`)
   const duration = moment(endDate).diff(moment(startDate), 'days') + 1
   const minTime = Number(curEvent.start_time.split(":")[0])
   const maxTime = Number(curEvent.end_time.split(":")[0])
@@ -16,7 +16,7 @@ export default function BlankCalendar ({ curEvent, availableTime, setAvailableTi
       day.forEach((period, j) => {
         if (period) {
           let newItem = moment(startDate).add(i, 'days').toDate()
-          newItem = moment(newItem).add(minTime - 8, 'h').toDate()
+          newItem = moment(newItem).add(minTime, 'h').toDate()
           newItem = moment(newItem).add(j * 30, 'm').toDate()
           //console.log(newItem)
           result.push(newItem)
@@ -34,7 +34,7 @@ export default function BlankCalendar ({ curEvent, availableTime, setAvailableTi
     //console.log(col_id)
     let curDate = moment(startDate).add(col_id, 'days').toDate()
     //console.log(curDate)
-    curDate = moment(curDate).add(minTime - 8, 'h').toDate()
+    curDate = moment(curDate).add(minTime, 'h').toDate()
     //console.log(curDate)
     const minDiff = curPeriod.diff(moment(curDate), 'm')
     //console.log(minDiff)
