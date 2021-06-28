@@ -15,7 +15,7 @@ export default function SignUpSec({ handleSignUp, setUserName, setPassword, setP
           <span className='signIn-input'>
             <label for='email'>Email</label>
             <input
-              type="text"
+              type="email"
               id="email"
               onChange={handleChange(setEmail)}/>
           </span>

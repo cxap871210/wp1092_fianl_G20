@@ -172,8 +172,13 @@ function MainPage({ setStart, user, setUser }) {
       content = content + result.result1[i] + "<br>" ;
     }
 
+    let content1 = "The arrangement of activity [ " + actName + " ] is done! \nAvailable times are as below:\n";
+    for(let i = 0 ; i < result.result1.length ; i++){
+      content1 = content1 + result.result1[i] + "\n" ;
+    }
+
     console.log(content) ;
-    let confirmMsg = `Sending emails to ${mails.join()}, with content: ${content}.`
+    let confirmMsg = `Sending emails to:\n${mails.join('\n')}\nContent of mail:\n ${content1}`
     if (window.confirm(confirmMsg)) {
       for(let i = 0 ; i < mails.length ; i ++){
         if(i !== mails.length -1){

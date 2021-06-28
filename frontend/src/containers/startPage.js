@@ -42,8 +42,12 @@ function StartPage({ setStart, setUser }) {
     }
   }
   const handleSignUp = async () => {
+    var e = document.getElementById('email')
     if (!username || !email || !password || !password2) {
       alert("All fields above must be filled to sign up.")
+    }
+    else if (!e.validity.valid){
+      alert("Please enter a valid email address.")
     }
     else if (password !== password2) {
       alert("Your passwords does not match, please try again.")
@@ -51,6 +55,8 @@ function StartPage({ setStart, setUser }) {
     else {
       ///if success
       const name = username
+      console.log('sign up')
+
       if (window.confirm(`You are signing up as "${username}" with email: ${email}.`)) {
         console.log('sign up')
         const {
