@@ -230,6 +230,39 @@ router.get('/get-mails', async function (req, res) {
   res.send({ mails: mails, actName: exist.name});
   
 });
+
+router.post('/delete', async function (req, res) {
+  const { attendCode } = req.body;
+  const activity = await db.ActivityModel.findOne({ code: attendCode }).populate('users') ;
+  const activity_id = activity._id;
+  
+  const U = activity.users ;
+  for(let i = 0 ; i < U.length ; i++){
+    await db.UserModel.updateOne({ name: U[i].name }, { $pull: { activities: activity_id } });
+    await db.TimeModel.deleteOne({ sender: U[i]._id }, {activity: activity_id });
+  }
+  await db.ActivityModel.deleteOne({ code: attendCode });
+
+  res.send({ status: true });
+
+});
+
+router.post('/quit', async function (req, res) {
+  const { name, attendCode } = req.body;
+  console.log(name, attendCode);
+  
+  const activity = await db.ActivityModel.findOne({ code: attendCode })
+  const activity_id = activity._id;
+  const user = await db.UserModel.findOne({ name: name });
+  const user_id = user._id;
+
+  await db.ActivityModel.updateOne({ code: attendCode }, { $pull: { users: user_id } });
+  await db.UserModel.updateOne({ name: name }, { $pull: { activities: activity_id } });
+  await db.TimeModel.deleteOne({ sender: user_id }, {activity: activity_id });
+  
+  res.send({ status: true });
+
+});
 /*-----------------------------------------------*/
 
 export default router;

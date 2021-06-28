@@ -294,6 +294,28 @@ const Body = () => {
 
   };
 
+  const handleDelete = async () => {
+    const {
+      data: { status },
+    } = await axios.post('/api/delete', {
+      attendCode,
+    });
+
+    console.log(status);
+  };
+
+  const handleQuit = async () => {
+    const {
+      data: { status },
+    } = await axios.post('/api/quit', {
+      name,
+      attendCode,
+    });
+
+    console.log(status);
+  };
+
+
 
 
 
@@ -365,7 +387,26 @@ const Body = () => {
         >
           Attend
         </Button>
+        <Button
+          className={classes.button}
+          variant="contained"
+          color="primary"
+          disabled={!attendCode}
+          onClick={handleDelete}
+        >
+          Delete
+        </Button>
+        <Button
+          className={classes.button}
+          variant="contained"
+          color="primary"
+          disabled={!attendCode}
+          onClick={handleQuit}
+        >
+          Quit
+        </Button>
       </Row>
+        
       <Row>
         <TextField
           placeholder="Act name"
