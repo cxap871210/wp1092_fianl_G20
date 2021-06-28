@@ -53,9 +53,6 @@ const Body = () => {
   const [endDate, setEndDate] = useState('');
   const [endTime, setEndTime] = useState('');
 
-  
-  
-  
 
   const [timeInterval, setTimeInterval] = useState(0) ;
   const [mustAppear, setMustAppear] = useState("");
@@ -188,12 +185,11 @@ const Body = () => {
     } = await axios.get('/api/result', { params: { attendCode } });
 
 
+  
     let temp = []
-    
     let MA = mustAppear.split(",") ;
     // console.log(MA) ;
   
-
 
     for(let i = 0 ; i < available_list.length ;  i++){
 
@@ -201,7 +197,7 @@ const Body = () => {
       let startD2 = new Date(startD[0]+ "/" + startD[1] + "/" + startD[2])
       startD2.setDate(startD2.getDate() + i + 1); 
       startD2 = startD2.toISOString().substring(0, 10) ;
-      console.log(startD2) ;
+      // console.log(startD2) ;
 
       let startT = parseInt(time_list[2].split(":")[0]) + parseInt(time_list[2].split(":")[1])/60 ;
       // console.log(startT);
@@ -264,8 +260,7 @@ const Body = () => {
     for(let i = 0 ; i < filterDisplay.length ; i++){
       content = content + filterDisplay[i] + "<br>" ;
     }
-
-    // console.log(content) ;
+    
 
     for(let i = 0 ; i < mails.length ; i ++){
       if(i !== mails.length -1){

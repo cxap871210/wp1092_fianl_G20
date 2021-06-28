@@ -215,7 +215,6 @@ router.get('/result', async function (req, res) {
 
   let time_list = [];
   time_list.push(activity.start_date, activity.end_date, activity.start_time, activity.end_time);
-
   res.send({ available_list: available_list, name_list: name_list, time_list: time_list });
 });
 
