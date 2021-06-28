@@ -252,7 +252,7 @@ router.post('/delete', async function (req, res) {
   const { attendCode } = req.body;
   const activity = await db.ActivityModel.findOne({ code: attendCode }).populate('users') ;
   const activity_id = activity._id;
-  console.log(activity_id) ;
+  // console.log(activity_id) ;
   
   const U = activity.users ;
   for(let i = 0 ; i < U.length ; i++){
@@ -268,7 +268,7 @@ router.post('/delete', async function (req, res) {
 
 router.post('/quit', async function (req, res) {
   const { name, attendCode } = req.body;
-  console.log(name, attendCode);
+  // console.log(name, attendCode);
   
   const activity = await db.ActivityModel.findOne({ code: attendCode })
   const activity_id = activity._id;
