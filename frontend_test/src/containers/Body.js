@@ -294,6 +294,52 @@ const Body = () => {
 
   };
 
+  const handleDeleteEmail = async () => {
+
+    const {
+      data: { mails, actName, creator_name },
+    } = await axios.get('/api/get-delete-mails', { params: { attendCode } });
+
+    // console.log(mails);
+
+    let content = "The activity [ " + actName + " ] has been cancelled by the creator " + creator_name + ". <br>";
+    
+    
+
+    for(let i = 0 ; i < mails.length ; i ++){
+      if(i !== mails.length -1){
+        window.Email.send({
+          Host : "smtp.gmail.com",
+          Username : "cxapwebfinal@gmail.com",
+          Password : "password1092",
+          To : mails[i],
+          From : "Web1092FinalG24<cxapwebfinal@gmail.com>",
+          Subject : "偽 when2meet 活動取消通知",
+          Body : content
+        })
+      }
+      else{
+        window.Email.send({
+          Host : "smtp.gmail.com",
+          Username : "cxapwebfinal@gmail.com",
+          Password : "password1092",
+          To : mails[i],
+          From : "Web1092FinalG24<cxapwebfinal@gmail.com>",
+          Subject : "偽 when2meet 活動取消通知",
+          Body : content
+        })
+        .then(
+          message => alert(message)
+        );
+      }
+
+    }
+
+
+  };
+
+  
+
   const handleDelete = async () => {
     const {
       data: { status },
@@ -605,6 +651,14 @@ const Body = () => {
           onClick={handleEmail}
         >
           Email
+        </Button>
+        <Button
+          className={classes.button}
+          variant="contained"
+          color="primary"
+          onClick={handleDeleteEmail}
+        >
+          D-Email
         </Button>
       </Row>
       <Row>

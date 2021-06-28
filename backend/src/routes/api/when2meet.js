@@ -231,6 +231,23 @@ router.get('/get-mails', async function (req, res) {
   
 });
 
+router.get('/get-delete-mails', async function (req, res) {
+  const { attendCode } = req.query;
+  const exist = await db.ActivityModel.findOne({ code: attendCode }).populate('users');
+
+  let mails = []
+  const creator_name = exist.creator ;
+  for(let i = 0 ; i < exist.users.length ; i++){
+    if(exist.users[i].name !== creator_name){
+      mails.push(exist.users[i].email) ;
+    }
+  }
+
+
+  res.send({ mails: mails, actName: exist.name, creator_name: creator_name});
+  
+});
+
 router.post('/delete', async function (req, res) {
   const { attendCode } = req.body;
   const activity = await db.ActivityModel.findOne({ code: attendCode }).populate('users') ;
