@@ -235,12 +235,14 @@ router.post('/delete', async function (req, res) {
   const { attendCode } = req.body;
   const activity = await db.ActivityModel.findOne({ code: attendCode }).populate('users') ;
   const activity_id = activity._id;
+  console.log(activity_id) ;
   
   const U = activity.users ;
   for(let i = 0 ; i < U.length ; i++){
     await db.UserModel.updateOne({ name: U[i].name }, { $pull: { activities: activity_id } });
-    await db.TimeModel.deleteOne({ sender: U[i]._id }, {activity: activity_id });
   }
+  
+  await db.TimeModel.deleteMany({ activity: activity_id });
   await db.ActivityModel.deleteOne({ code: attendCode });
 
   res.send({ status: true });
