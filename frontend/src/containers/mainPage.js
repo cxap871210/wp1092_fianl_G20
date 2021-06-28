@@ -20,6 +20,7 @@ function MainPage({ setStart, user, setUser }) {
   const [availableTime, setAvailableTime] = useState([])
   const [tempAvailableTime, setTempAvailableTime] = useState([])
   const [result, setResult] = useState(null)
+  const [filterDisplay, setFilterDisplay] = useState([]);
 
   const handleSignOut = () => {
     console.log('signout')
@@ -71,7 +72,7 @@ function MainPage({ setStart, user, setUser }) {
 
       console.log(status);
       if (status) {
-        if (window.confirm(`You are creating an event "${activityName}", starting on ${startDate}, ending on ${endDate}, from ${startTime} to ${endTime} each day. `))
+        if (window.confirm(`You are creating an event [${activityName}], starting on ${startDate}, ending on ${endDate}, from ${startTime} to ${endTime} each day. `))
         closeCreateModal()
         console.log('created!')
         //handleGetActivity()
@@ -113,61 +114,68 @@ function MainPage({ setStart, user, setUser }) {
     console.log('copied!')
   }
 
-  const handleDeleteEmail = async () => {
+  const handleDeleteEmail = async (del_mails, del_actName, del_creator) => {
 
-    const {
-      data: { mails, actName, creator_name },
-    } = await axios.get('/api/get-delete-mails', { params: { attendCode } });
+    let content = "The activity [ " + del_actName + " ] has been cancelled by the creator " + del_creator + ". <br>";
+    let content1 = "The activity [ " + del_actName + " ] has been cancelled by the creator " + del_creator + ".";
+    let confirmMsg = `Sending emails to:\n${del_mails.join('\n')}\nContent of mail:\n ${content1}`
+    if (window.confirm(confirmMsg)) {
+      for (let i = 0 ; i < del_mails.length ; i ++){
+        if(i !== del_mails.length -1){
+          window.Email.send({
+            Host : "smtp.gmail.com",
+            Username : "cxapwebfinal@gmail.com",
+            Password : "password1092",
+            To : del_mails[i],
+            From : "Web1092FinalG24<cxapwebfinal@gmail.com>",
+            Subject : "偽 when2meet 活動取消通知",
+            Body : content
+          })
+        }
+        else{
+          window.Email.send({
+            Host : "smtp.gmail.com",
+            Username : "cxapwebfinal@gmail.com",
+            Password : "password1092",
+            To : del_mails[i],
+            From : "Web1092FinalG24<cxapwebfinal@gmail.com>",
+            Subject : "偽 when2meet 活動取消通知",
+            Body : content
+          })
+          .then(
+            message => alert(message)
+          );
+        }
 
-    // console.log(mails);
-
-    let content = "The activity [ " + actName + " ] has been cancelled by the creator " + creator_name + ". <br>";
-
-    for(let i = 0 ; i < mails.length ; i ++){
-      if(i !== mails.length -1){
-        window.Email.send({
-          Host : "smtp.gmail.com",
-          Username : "cxapwebfinal@gmail.com",
-          Password : "password1092",
-          To : mails[i],
-          From : "Web1092FinalG24<cxapwebfinal@gmail.com>",
-          Subject : "偽 when2meet 活動取消通知",
-          Body : content
-        })
       }
-      else{
-        window.Email.send({
-          Host : "smtp.gmail.com",
-          Username : "cxapwebfinal@gmail.com",
-          Password : "password1092",
-          To : mails[i],
-          From : "Web1092FinalG24<cxapwebfinal@gmail.com>",
-          Subject : "偽 when2meet 活動取消通知",
-          Body : content
-        })
-        .then(
-          message => alert(message)
-        );
-      }
-
     }
   };
 
   const handleDelete = async (event) => {
-    //leave event
+    /*const [del_mails, setDel_mails] = useState([]);
+    const [del_actName, setDel_actName] = useState("");
+    const [del_creator, setDel_creator] = useState("");*/
+    //delete event
     const attendCode = event.code
-    if (window.confirm(`Deleting [${event.name}].`)) {
+    if (window.confirm(`Deleting event [${event.name}].`)) {
+      const {
+        data: { mails, actName, creator_name },
+      } = await axios.get('/api/get-delete-mails', { params: { attendCode } });
+
       const {
         data: { status },
       } = await axios.post('/api/delete', {
         attendCode,
       });
+
       if (status) {
-        window.confirm(`Deleted [${event.name}]!`)
-        if (window.confirm(`Do you want to send emails to notify all attendents that this event is deleted?`)) {
-          //send email
+        window.confirm(`Deleted event [${event.name}].`)
+        if (window.confirm(`Do you want to send an email to all attendents of ${event.name} to notify that the event was deleted?`)) {
+          handleDeleteEmail(mails, actName, creator_name)
         }
       }
+
+      //console.log(status);
     }
     console.log('delete')
   }
@@ -217,19 +225,87 @@ function MainPage({ setStart, user, setUser }) {
   }
 
   const handleFilter = async () => {
+    console.log(result.result1)
     var e = document.getElementById("minMemCnt")
-    var minMemCnt = e.value
+    var minPeople = e.value
     var f = document.getElementById("minHourCnt")
-    var minHourCnt = f.value
-    console.log(minMemCnt, minHourCnt)
-    var checkedNames = [];
+    var timeInterval = f.value
+    //console.log(minPeople, timeInterval)
+    var mustAppear = [];
     var g = document.getElementsByClassName('names-checkbox');
     for (let i = 0; g[i]; i++) {
       if (g[i].checked) {
-        checkedNames.push(g[i].value)
+        mustAppear.push(g[i].value)
       }
     }
-    console.log(checkedNames)
+    //console.log(mustAppear)
+
+    const attendCode = viewEvent.code
+
+    const {
+      data: { available_list, name_list, time_list },
+    } = await axios.get('/api/result', { params: { attendCode } });
+
+
+
+    let temp = []
+    let MA = mustAppear;
+    // console.log(MA) ;
+
+
+    for(let i = 0 ; i < available_list.length ;  i++){
+
+      let startD = time_list[0].split("-");
+      let startD2 = new Date(startD[0]+ "/" + startD[1] + "/" + startD[2])
+      startD2.setDate(startD2.getDate() + i + 1);
+      startD2 = startD2.toISOString().substring(0, 10) ;
+      // console.log(startD2) ;
+
+      let startT = parseInt(time_list[2].split(":")[0]) + parseInt(time_list[2].split(":")[1])/60 ;
+      // console.log(startT);
+
+
+      for (let j = 0 ; j < available_list[i].length ; j++){
+        let cnt = 0 ;
+        let fine = true;
+        while(j + cnt < available_list[i].length && available_list[i][j+cnt].length >= minPeople && fine){
+          // console.log(j+cnt) ;
+          // console.log(MA.length) ;
+          if(MA.length !== 1 || MA[0] !== ""){
+            for(let k = 0 ; k < MA.length ; k++){
+              if(available_list[i][j+cnt].includes(MA[k]) === false){
+                fine = false ;
+                break ;
+              }
+            }
+          }
+          if(fine === true){
+            cnt = cnt + 1 ;
+          }
+        }
+
+
+        if(cnt !== 0 && cnt >= timeInterval * 2){
+
+          let fromM = (startT + 0.5 * j) % 1 * 60;
+          if(fromM === 0){fromM = "00"}
+          let fromT  = parseInt(startT + 0.5 * j ) + ":" + fromM;
+
+          let toM = (startT + 0.5 * j + cnt * 0.5) % 1 * 60;
+          if(toM === 0){toM = "00"}
+          let toT =  parseInt(startT + 0.5 * j + cnt * 0.5) + ":" + toM;
+
+          console.log(startD2 + ", " + fromT + " ~ " + toT) ;
+          temp.push(startD2 + ", " + fromT + " ~ " + toT) ;
+        }
+
+        j = j + cnt ;
+      }
+
+    }
+
+    console.log(temp) ;
+    setFilterDisplay(temp) ;
 
     ///
   }
@@ -242,12 +318,12 @@ function MainPage({ setStart, user, setUser }) {
 
     // console.log(mails);
 
-    let content = "The arrangement of activity [ " + actName + " ] is done! <br><br>Available times are as below:<br><br>";
+    let content = "The arrangement of event [ " + actName + " ] is done! <br><br>Available times are as below:<br><br>";
     for(let i = 0 ; i < result.result1.length ; i++){
       content = content + result.result1[i] + "<br>" ;
     }
 
-    let content1 = "The arrangement of activity [ " + actName + " ] is done! \nAvailable times are as below:\n";
+    let content1 = "The arrangement of event [ " + actName + " ] is done! \nAvailable times are as below:\n";
     for(let i = 0 ; i < result.result1.length ; i++){
       content1 = content1 + result.result1[i] + "\n" ;
     }
@@ -478,7 +554,8 @@ function MainPage({ setStart, user, setUser }) {
           handleBack={handleBack}
           handleFilter={handleFilter}
           handleNotify={handleNotify}
-          result={result}/> :
+          result={result}
+          filterDisplay={filterDisplay}/> :
           null
         }
       </div>

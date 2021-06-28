@@ -399,6 +399,7 @@ select {
 
 .filter-result {
   height: 42vh;
+  padding: 10px;
 }
 
 .notify-button {

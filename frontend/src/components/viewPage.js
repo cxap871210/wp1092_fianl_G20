@@ -2,7 +2,7 @@ import AvailableCalendar from './availableCalendar'
 import NameList from './nameList'
 import React, { useState, useEffect } from 'react'
 
-export default function ViewPage ({ username, viewEvent, handleBack, handleFilter, handleNotify, result }) {
+export default function ViewPage ({ username, viewEvent, handleBack, handleFilter, handleNotify, result, filterDisplay }) {
   const [list, setList] = useState(null)
   const [showList, setShowList] = useState(false)
   const [curBlock, setCurBlock] = useState('')
@@ -109,6 +109,13 @@ export default function ViewPage ({ username, viewEvent, handleBack, handleFilte
         </span>
         <div className='viewPage-filter'>
           <div className='filter-result'>
+          {
+            filterDisplay === []?
+            null:
+            filterDisplay.map((line) => (
+              <div>{line}</div>
+            ))
+          }
           </div>
           {showNoteButton?
             <span
