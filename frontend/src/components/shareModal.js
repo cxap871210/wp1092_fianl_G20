@@ -11,7 +11,7 @@ export default function ShareModal ({ shareEvent, closeShareModal, handleCopy })
           {
             shareEvent === null ?
             null:
-            <p>The code of "{shareEvent.name}" is <span className='event-code'> {shareEvent.code}</span>.</p>
+            <p>The code of [{shareEvent.name}] is <input type='text' id='event-code' value={shareEvent.code} readOnly={true}/></p>
           }
         </div>
         <span

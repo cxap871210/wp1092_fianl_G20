@@ -107,12 +107,45 @@ function MainPage({ setStart, user, setUser }) {
     }
   }
   const handleCopy = () => {
-    var copyTextarea = document.querySelector('.event-code');
+    var copyText = document.getElementById('event-code')
+    copyText.select()
+    document.execCommand("copy")
     console.log('copied!')
   }
-  const handleLeave = () => {
+  const handleDelete = async (event) => {
     //leave event
-    console.log('left')
+    const attendCode = event.code
+    if (window.confirm(`Deleting [${event.name}].`)) {
+      const {
+        data: { status },
+      } = await axios.post('/api/delete', {
+        attendCode,
+      });
+      if (status) {
+        window.confirm(`Deleted [${event.name}]!`)
+        if (window.confirm(`Do you want to send emails to notify all attendents that this event is deleted?`)) {
+          //send email
+        }
+      }
+    }
+    console.log('delete')
+  }
+  const handleQuit = async (event) => {
+    const attendCode = event.code
+    const name = user.username
+    if (window.confirm(`Quitting [${event.name}].`)) {
+      console.log('quit')
+      const {
+        data: { status },
+      } = await axios.post('/api/quit', {
+        name,
+        attendCode,
+      });
+      if (status) {
+        window.confirm(`You left [${event.name}].`)
+      }
+    }
+
   }
   const handleClear = () => {
     console.log('clear')
@@ -363,11 +396,13 @@ function MainPage({ setStart, user, setUser }) {
           <>
             <div className='mainPage-wrapper'>
               <EventList
+              username={user.username}
               eventList={user.eventList}
               openEditPage={openEditPage}
               openViewPage={openViewPage}
               openShareModal={openShareModal}
-              handleLeave={handleLeave}/>
+              handleDelete={handleDelete}
+              handleQuit={handleQuit}/>
               <InfoBar
               username={user.username}
               handleSignOut={handleSignOut}

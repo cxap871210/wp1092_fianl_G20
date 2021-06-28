@@ -18,7 +18,7 @@ export default function JoinModal ({ closeJoinModal, handleJoin }) {
        </div>
        <div className='joinModal-input-wrapper'>
          <span className='joinModal-input'>
-           <label for='eventCode'>Event Code</label>
+           <label for='eventCode'>Event Code:</label>
            <input
              type="text"
              id="eventCode"

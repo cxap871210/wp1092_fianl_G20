@@ -10,21 +10,16 @@ input {
   border-style: hidden;
   border-radius: 2px;
   margin: 5px;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
 
 .text-button {
   background-color: #6e6e6e;
-
-  border-width: 0px;
-  border-style: solid;
-  /*border-color: #FFFFFF;*/
   border-radius: 5px;
 
-  /*padding-top: 0.5%;
-  padding-bottom: 0.5%;
-  height: 3vh;*/
   padding: 1% 5% 1% 5%;
-  /*margin-top: 10%;*/
+
+  text-align: center;
 
   font-weight: bold;
 
@@ -152,9 +147,9 @@ input {
   margin: 5px;
 }
 
-.leave-button {
+.delete-button {
   color: #ff8785;
-  width: 10px;
+  /*width: 10px;*/
 }
 
 .event-name {
@@ -170,7 +165,7 @@ input {
   flex-direction: row;
   justify-content: space-between;
 
-  width: 80px;
+  width: 120px;
 }
 
 .edit-button {
@@ -185,6 +180,10 @@ input {
   color: #c4f5fc;
 }
 
+.quit-button {
+  color: #ff8785;
+}
+
 .infoBar-wrapper {
   display: flex;
   flex-direction: column;
@@ -196,22 +195,26 @@ input {
 .userInfo-wrapper {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .function-button-wrapper {
   display: flex;
   flex-direction: column;
   align-self: center;
+  width: 100px;
 }
 
 .signOut-button {
   margin-top: 10px;
   text-align: center;
   color: #ff8785;
+  width: 120px;
 }
 
 .create-button {
   color: #e8ffb7;
+  margin-bottom: 10px;
 }
 
 .join-button {
@@ -450,13 +453,17 @@ select {
   margin-bottom: 5px;
 }
 
+.joinModal-button-wrapper {
+  margin-top: 10px;
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .createModal-time-input {
   display: flex;
   flex-direction: column;
-}
-
-.create-button {
-  margin-top: 20px;
 }
 
 .shareModal-text {
@@ -471,14 +478,12 @@ select {
   color: #c4f5fc;
 }
 
-.event-code {
+#event-code {
   background-color: #ffffff;
   border-radius: 5px;
-  padding: 2px 4px 0px 4px;
-}
-
-.join-button {
-  /*margin-top: 20px;*/
+  width: 110px;
+  font-size: 18px;
+  text-align: center;
 }
 
 .close-button {

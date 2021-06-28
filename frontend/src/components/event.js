@@ -1,10 +1,11 @@
-export default function Event ({ event, openEditPage, openViewPage, openShareModal, handleLeave }) {
+export default function Event ({ username, event, openEditPage, openViewPage, openShareModal, handleDelete, handleQuit }) {
+  const isCreator = username === event.creator
+  //console.log(isCreator)
   return (
     <div className='event'>
       <span
-      className='leave-button icon-button'
-      onClick={handleLeave}>
-        <i class="far fa-times-circle"></i>
+      className='pointer-icon'>
+        <i class="fas fa-caret-right"></i>
       </span>
       <div className='event-name'>
         {event.name}
@@ -28,6 +29,18 @@ export default function Event ({ event, openEditPage, openViewPage, openShareMod
         onClick={() => openShareModal(event)}>
           <i class="fas fa-share-alt"></i>
         </span>
+        {isCreator ?
+          <span
+          className='delete-button icon-button'
+          onClick={() => handleDelete(event)}>
+            <i class="far fa-times-circle"></i>
+          </span>:
+          <span
+          className='quit-button icon-button'
+          onClick={() => handleQuit(event)}>
+            <i class="fas fa-sign-out-alt"></i>
+          </span>
+        }
       </div>
     </div>
   )
