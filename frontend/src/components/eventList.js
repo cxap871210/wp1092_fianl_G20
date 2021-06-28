@@ -16,7 +16,7 @@ return (
           openEditPage={openEditPage}
           openViewPage={openViewPage}
           openShareModal={openShareModal}
-          handleLeave={handleDelete}
+          handleDelete={handleDelete}
           handleQuit={handleQuit}/>
         ))}
       </div>
