@@ -5,6 +5,7 @@ export default function SignInSec({ handleSignIn, setSignIn, setUserName, setPas
   return (
     <div className='signIn-sec'>
       <div className='signIn-input-wrapper'>
+        <h2>Sign In</h2>
         <span className='signIn-input'>
           <label for='username'>Username</label>
           <input
@@ -24,7 +25,7 @@ export default function SignInSec({ handleSignIn, setSignIn, setUserName, setPas
         <span
         className='signUp-button text-button'
         onClick={() => setSignIn(false)}>
-          Sign Up
+          <i class="fas fa-caret-left"></i> Sign Up
         </span>
         <span
         className='signIn-button text-button'

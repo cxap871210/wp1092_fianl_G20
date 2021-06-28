@@ -1,10 +1,11 @@
-export default function SignUpSec({ handleSignUp, setUserName, setPassword, setPassword2, setEmail }) {
+export default function SignUpSec({ handleSignUp, handleBackToSignIn, setUserName, setPassword, setPassword2, setEmail }) {
   const handleChange = (func) => (event) => {
     func(event.target.value)
   }
   return (
       <div className='signIn-sec'>
         <div className='signIn-input-wrapper'>
+          <h2>Sign Up</h2>
           <span className='signIn-input'>
             <label for='username'>Username</label>
             <input
@@ -35,6 +36,11 @@ export default function SignUpSec({ handleSignUp, setUserName, setPassword, setP
           </span>
         </div>
         <div className='signIn-button-wrapper'>
+          <span
+          className='signIn-button text-button'
+          onClick={handleBackToSignIn}>
+            <i class="fas fa-caret-left"></i> Sign In
+          </span>
           <span
           className='signUp-button text-button'
           onClick={handleSignUp}>

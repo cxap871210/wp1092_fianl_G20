@@ -9,8 +9,8 @@ export default function ViewPage ({ username, viewEvent, handleBack, handleFilte
   const showNoteButton = username === viewEvent.creator
   const memberCnt = result.nameList.length
   const memberCnt_arr = [] //最少出席人數
-  for (let i = 0; i < memberCnt; i++) {
-    memberCnt_arr.push(i + 1)
+  for (let i = memberCnt; i > 0; i--) {
+    memberCnt_arr.push(i)
   }
 
   const hourCnt = Number(viewEvent.end_time.split(":")[0]) - Number(viewEvent.start_time.split(":")[0])
@@ -40,22 +40,27 @@ export default function ViewPage ({ username, viewEvent, handleBack, handleFilte
       a: a.sort(),
       u: u.sort()
     })
-    //console.log(a)
-    //console.log(u)
+    console.log(a)
+    console.log(u)
   }
   useEffect(() => {
     if (list !== null) {
-      setShowList(true)
+      if (list.a === [] & list.u === []) {
+        setShowList(false)
+      } else {
+        setShowList(true)
+      }
     }
   }, list)
+
   return (
     <div className='viewPage'>
       <div className='viewPage-wrapper'>
         <div className='editPage-top'>
           <span
-          className='back-button icon-button'
+          className='back-button text-button'
           onClick={handleBack}>
-            <i class="fas fa-undo-alt"></i>
+            <i class="fas fa-backward"></i> Back to Main Page
           </span>
           <div className='editPage-title'>
             <h3>Available time for all attendents of "{viewEvent.name}"</h3>
@@ -96,7 +101,7 @@ export default function ViewPage ({ username, viewEvent, handleBack, handleFilte
             Attendents who must show up:
             {result.nameList.map((name) => (
               <span className='mustShow-names'>
-                <input className='names-checkbox' type="checkbox" id={name} name={name} value={name} />
+                <input className='names-checkbox' type="checkbox" id={name} name={name} value={name} checked/>
                 <label for={name}>{name}</label>
               </span>
             ))}
@@ -111,7 +116,9 @@ export default function ViewPage ({ username, viewEvent, handleBack, handleFilte
           <div className='filter-result'>
           {
             filterDisplay === []?
-            null:
+            result.result1.map((line) => (
+              <div>{line}</div>
+            )):
             filterDisplay.map((line) => (
               <div>{line}</div>
             ))

@@ -48,13 +48,14 @@ input {
 .signIn-box {
   margin-top: 35vh;
   margin-left: 40vw;
+  padding-bottom: 20px;
+
+  border-radius: 20px;
   width: 20vw;
   height: 30vh;
-}
-
-.signIn-box {
   display: flex;
   flex-direction: column;
+  /*background-color: #333333;*/
 }
 
 .logo {
@@ -64,6 +65,7 @@ input {
 .signIn-sec {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .signIn-input-wrapper {
@@ -71,19 +73,13 @@ input {
   flex-direction: column;
 }
 
-.signIn-input {
-  /*
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 20vw;*/
-}
 
 .signIn-button-wrapper {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  margin-top: 10px;
+  margin-top: 20px;
+  width: 100%;
 }
 
 .signIn-button {
@@ -99,19 +95,26 @@ input {
   display: flex;
   flex-direction: row;
 
-  margin-top: 7.5vh;
-  margin-bottom: 10vh;
+  margin: 7.5vh 15vw 10vh 15vw;
 }
 
 .eventList-wrapper {
   display: flex;
   flex-direction: column;
 
-  width: 60vw;
+  width: 40vw;
   height: 80vh;
 
-  margin-left: 5vw;
+  /*margin-left: 5vw;*/
   margin-right: 5vw;
+}
+
+.infoBar-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  width: 25vw;
 }
 
 .eventList-title {
@@ -126,6 +129,11 @@ input {
   flex-direction: column;
 
   margin-top: 5px;
+}
+
+.blank-text {
+  color: #6e6e6e;
+
 }
 
 .event {
@@ -150,6 +158,10 @@ input {
 .delete-button {
   color: #ff8785;
   /*width: 10px;*/
+}
+
+.pointer-icon {
+  margin-right: 5vw;
 }
 
 .event-name {
@@ -182,14 +194,6 @@ input {
 
 .quit-button {
   color: #ff8785;
-}
-
-.infoBar-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  width: 25vw;
 }
 
 .userInfo-wrapper {
@@ -238,11 +242,6 @@ input {
 
 .back-button {
   float: left;
-  font-size: 20px;
-}
-
-.back-button:hover {
-  font-size: 24px;
 }
 
 .calendar {
@@ -325,6 +324,11 @@ input {
   display: flex;
   flex-direction: column;
   margin: 0vh 30px 0vh 0px;
+}
+
+.viewPage-back-buttons {
+  float: left;
+
 }
 
 .viewPage-calendar {
@@ -460,6 +464,10 @@ select {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.createModal-input-wrapper {
+  margin-bottom: 20px;
 }
 
 .createModal-time-input {

@@ -34,7 +34,7 @@ export default function CreateModal ({ closeCreateModal, handleCreate }) {
               onChange={handleChange(setActivityName)} />
           </span>
         </div>
-        <div className='createModal-date-input'>
+        <div className='createModal-time-input'>
           <span className='createModal-input'>
             From
             <DatePicker

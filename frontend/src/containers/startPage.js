@@ -79,6 +79,9 @@ function StartPage({ setStart, setUser }) {
     }
 
   }
+  const handleBackToSignIn = () => {
+    setSignIn(true)
+  }
   return (
     <div className='startPage'>
       <div className='signIn-box'>
@@ -92,6 +95,7 @@ function StartPage({ setStart, setUser }) {
           setPassword={setPassword}/> :
           <SignUpSec
           handleSignUp={handleSignUp}
+          handleBackToSignIn={handleBackToSignIn}
           setUserName={setUserName}
           setPassword={setPassword}
           setPassword2={setPassword2}

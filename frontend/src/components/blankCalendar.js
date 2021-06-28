@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react'
 import ScheduleSelector from 'react-schedule-selector'
 import moment from 'moment'
 
-export default function BlankCalendar ({ curEvent, availableTime, setAvailableTime, setTempAvailableTime }) {
+export default function BlankCalendar ({ curEvent, schedule, setSchedule, setTempAvailableTime }) {
   const startDate = new Date(`${curEvent.start_date}T00:00:00`)
   const endDate = new Date(`${curEvent.end_date}T00:00:00`)
   const duration = moment(endDate).diff(moment(startDate), 'days') + 1
   const minTime = Number(curEvent.start_time.split(":")[0])
   const maxTime = Number(curEvent.end_time.split(":")[0])
 
-  const ownToSchedule = (availableTime) => {
+  /*const ownToSchedule = (availableTime) => {
     //console.log(availableTime)
     let result = []
     availableTime.forEach((day, i) => {
@@ -26,7 +26,7 @@ export default function BlankCalendar ({ curEvent, availableTime, setAvailableTi
     });
     //console.log(result) availabletime 出去再update
     return result
-  }
+  }*/
 
   const timeToIndex = (time) => {
     const curPeriod = moment(time)
@@ -54,19 +54,13 @@ export default function BlankCalendar ({ curEvent, availableTime, setAvailableTi
     }
     schedule.forEach((period, i) => {
       const {col_id, row_id} = timeToIndex(period)
-      //console.log(period)
-      //console.log(col_id)
-      //console.log(row_id)
       arr[col_id][row_id] = 1
     })
     return arr
   }
-  const [schedule, setSchedule] = useState(ownToSchedule(availableTime))
 
   const handleChange = newSchedule => {
-    console.log(schedule)
     setSchedule(newSchedule)
-    //console.log(availableTime)
     setTempAvailableTime(scheduleToOwn(newSchedule))
   }
 

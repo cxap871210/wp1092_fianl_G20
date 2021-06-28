@@ -44,11 +44,14 @@ export default function AvailableCalendar ({ viewEvent, allAvailableTime, getUse
 
   const handleChange = newSchedule => {
     //console.log(newSchedule)
-    const {col_id, row_id} = timeToIndex(newSchedule[0])
-    const time1 = moment(newSchedule[0]).format('YYYY-MM-DD HH:mm')
-    const time2 = moment(newSchedule[0]).add(30, 'm').format('HH:mm')
-    setCurBlock(`${time1} ~ ${time2}`)
-    getUserList(col_id, row_id)
+    if (newSchedule.length !== 0) {
+      console.log(newSchedule)
+      const {col_id, row_id} = timeToIndex(newSchedule[0])
+      const time1 = moment(newSchedule[0]).format('YYYY-MM-DD HH:mm')
+      const time2 = moment(newSchedule[0]).add(30, 'm').format('HH:mm')
+      setCurBlock(`${time1} ~ ${time2}`)
+      getUserList(col_id, row_id)
+    }
     //setSchedule(newSchedule)
   }
 

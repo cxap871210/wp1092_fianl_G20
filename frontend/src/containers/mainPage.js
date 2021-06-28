@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from '../api'
 
-import Logo from '../components/logo';
 import EventList from '../components/eventList';
 import InfoBar from '../components/infoBar';
 import EditPage from '../components/editPage';
@@ -199,7 +198,7 @@ function MainPage({ setStart, user, setUser }) {
   }
   const handleClear = () => {
     console.log('clear')
-    setAvailableTime([])
+    //setAvailableTime([])
   }
   const handleSubmit = async () => {
     //submit new user timeout
@@ -372,24 +371,29 @@ function MainPage({ setStart, user, setUser }) {
 
     //console.log(status, result, time_list)
     //console.log('get user time')
+    //setAvailableTime([])
     setAvailableTime(result)
   }
 
   useEffect(() => {
     if (curEvent !== null) {
       getUserTime(curEvent.code)
-      console.log(availableTime)
+      //console.log(availableTime)
     }
   }, [curEvent])
 
   useEffect(() => {
     if (availableTime !== [] & curEvent !== null) {
       setPage('edit')
+      //console.log('done open edit')
     }
   }, [availableTime])
 
   const openEditPage = (event) => {
+    //console.log('open edit')
+    setCurEvent(null)
     setCurEvent(event)
+    //console.log(curEvent)
   }
 
 
@@ -473,6 +477,7 @@ function MainPage({ setStart, user, setUser }) {
   }, [result])
 
   const openViewPage = (event) => {
+    setViewEvent(null)
     setViewEvent(event)
   }
   const openCreateModal = () => {
@@ -542,7 +547,6 @@ function MainPage({ setStart, user, setUser }) {
           <EditPage
           curEvent={curEvent}
           handleBack={handleBack}
-          handleClear={handleClear}
           handleSubmit={handleSubmit}
           availableTime={availableTime}
           setAvailableTime={setAvailableTime}

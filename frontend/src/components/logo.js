@@ -1,7 +1,7 @@
 export default function Logo() {
   return (
     <div className='logo'>
-      <h1>MEET!</h1>
+      <h1>WHEN2MEET, TOO</h1>
     </div>
   )
 }

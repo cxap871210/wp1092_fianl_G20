@@ -9,7 +9,9 @@ return (
         <h2>My Events</h2>
       </div>
       <div className='eventList-list'>
-        {eventList.map(event => (
+        {eventList.length === 0?
+          <div className='blank-text'>You don't have any events for now. You can create or join an event.</div>:
+          eventList.map(event => (
           <Event
           username={username}
           event={event}
