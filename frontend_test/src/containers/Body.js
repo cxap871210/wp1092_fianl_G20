@@ -59,6 +59,11 @@ const Body = () => {
   const [minPeople, setMinPeople] = useState(0);
   const [filterDisplay, setFilterDisplay] = useState([]);
 
+  const [del_mails, setDel_mails] = useState([]);
+  const [del_actName, setDel_actName] = useState("");
+  const [del_creator, setDel_creator] = useState("");
+
+
 
   const [T0_0, setT0_0] = useState();
   const [T0_1, setT0_1] = useState();
@@ -184,8 +189,6 @@ const Body = () => {
       data: { available_list, name_list, time_list },
     } = await axios.get('/api/result', { params: { attendCode } });
 
-
-  
     let temp = []
     let MA = mustAppear.split(",") ;
     // console.log(MA) ;
@@ -296,23 +299,21 @@ const Body = () => {
 
   const handleDeleteEmail = async () => {
 
-    const {
-      data: { mails, actName, creator_name },
-    } = await axios.get('/api/get-delete-mails', { params: { attendCode } });
+    
 
     // console.log(mails);
 
-    let content = "The activity [ " + actName + " ] has been cancelled by the creator " + creator_name + ". <br>";
+    let content = "The activity [ " + del_actName + " ] has been cancelled by the creator " + del_creator + ". <br>";
     
     
 
-    for(let i = 0 ; i < mails.length ; i ++){
-      if(i !== mails.length -1){
+    for(let i = 0 ; i < del_mails.length ; i ++){
+      if(i !== del_mails.length -1){
         window.Email.send({
           Host : "smtp.gmail.com",
           Username : "cxapwebfinal@gmail.com",
           Password : "password1092",
-          To : mails[i],
+          To : del_mails[i],
           From : "Web1092FinalG24<cxapwebfinal@gmail.com>",
           Subject : "偽 when2meet 活動取消通知",
           Body : content
@@ -323,7 +324,7 @@ const Body = () => {
           Host : "smtp.gmail.com",
           Username : "cxapwebfinal@gmail.com",
           Password : "password1092",
-          To : mails[i],
+          To : del_mails[i],
           From : "Web1092FinalG24<cxapwebfinal@gmail.com>",
           Subject : "偽 when2meet 活動取消通知",
           Body : content
@@ -341,6 +342,15 @@ const Body = () => {
   
 
   const handleDelete = async () => {
+    
+    const {
+      data: { mails, actName, creator_name },
+    } = await axios.get('/api/get-delete-mails', { params: { attendCode } });
+
+    setDel_mails(mails) ;
+    setDel_actName(actName) ;
+    setDel_creator(creator_name) ;
+    
     const {
       data: { status },
     } = await axios.post('/api/delete', {
