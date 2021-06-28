@@ -230,11 +230,16 @@ input {
   text-align: center;
 
   padding: 5px 0px 5px 0px;
-  height: 30px;
+  /*height: 30px;*/
 }
 
 .back-button {
   float: left;
+  font-size: 20px;
+}
+
+.back-button:hover {
+  font-size: 24px;
 }
 
 .calendar {
@@ -271,6 +276,11 @@ input {
 .calendar-cell {
   height: 40px;
   /*width: 90px;*/
+  cursor: pointer;
+}
+
+.calendar-cell:hover {
+  filter: brightness(120%);
 }
 
 #cell-selected {
@@ -316,7 +326,7 @@ input {
 
 .viewPage-calendar {
   width: 60vw;
-  height: 80vh;
+  height: 85vh;
 
   overflow: auto;
   white-space: nowrap;
@@ -327,16 +337,69 @@ input {
   width: 30vw;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
-#viewPage-result {
-  height: 30vh;
+.viewPage-result {
+  /*position: fixed;
+  top: 10vh;*/
+  height: 20vh;
   background-color: #333333;
+  overflow: auto;
+  white-space: nowrap;
+}
+
+.name-list {
+  display: flex;
+  flex-direction: column;
+  /*justify-content: center;*/
+  align-items: center;
+  padding: 1%;
+}
+
+.viewPage-filter-conditions {
+  display: flex;
+  flex-direction: column;
+
+  overflow: auto;
+  white-space: nowrap;
+}
+
+.filter-text-wrapper {
+  margin-bottom: 5px;
+}
+
+select {
+  margin-left: 15px;
+}
+
+.mustShow-names {
+  margin-left: 15px;
+}
+
+.filter-button {
+
+  align-self: center;
+  margin-top: 15px;
+  color: #b192b5;
 }
 
 .viewPage-filter {
-  height: 50vh;
+  margin-top: 20px;
+  height: 47vh;
+  background-color: #333333;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.filter-result {
+  height: 42vh;
+}
+
+.notify-button {
+  color: #b7ffd8;
 }
 
 /* modals */

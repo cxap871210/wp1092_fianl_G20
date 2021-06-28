@@ -19,8 +19,6 @@ function MainPage({ setStart, user, setUser }) {
   const [viewEvent, setViewEvent] = useState(null)
   const [availableTime, setAvailableTime] = useState([])
   const [tempAvailableTime, setTempAvailableTime] = useState([])
-  //const [allAvailableTime, setAllAvailableTime] = useState([])
-  //const [nameList, setNameList] = useState([])
   const [result, setResult] = useState(null)
 
   const handleSignOut = () => {
@@ -111,15 +109,6 @@ function MainPage({ setStart, user, setUser }) {
   const handleCopy = () => {
     var copyTextarea = document.querySelector('.event-code');
     console.log('copied!')
-    /*copyTextarea.focus();
-    copyTextarea.select();
-    try {
-    var successful = document.execCommand('copy');
-    var msg = successful ? 'successful' : 'unsuccessful';
-    console.log('Copying text command was ' + msg);
-    } catch (err) {
-      console.log('Oops, unable to copy');
-    }*/
   }
   const handleLeave = () => {
     //leave event
@@ -150,7 +139,71 @@ function MainPage({ setStart, user, setUser }) {
     } else {
       alert("Something went wrong, please try again.")
     }
+  }
 
+  const handleFilter = async () => {
+    var e = document.getElementById("minMemCnt")
+    var minMemCnt = e.value
+    var f = document.getElementById("minHourCnt")
+    var minHourCnt = f.value
+    console.log(minMemCnt, minHourCnt)
+    var checkedNames = [];
+    var g = document.getElementsByClassName('names-checkbox');
+    for (let i = 0; g[i]; i++) {
+      if (g[i].checked) {
+        checkedNames.push(g[i].value)
+      }
+    }
+    console.log(checkedNames)
+
+    ///
+  }
+
+  const handleNotify = async () => {
+    const attendCode = viewEvent.code
+    const {
+      data: { mails, actName },
+    } = await axios.get('/api/get-mails', { params: { attendCode } });
+
+    // console.log(mails);
+
+    let content = "The arrangement of activity [ " + actName + " ] is done! <br><br>Available times are as below:<br><br>";
+    for(let i = 0 ; i < result.result1.length ; i++){
+      content = content + result.result1[i] + "<br>" ;
+    }
+
+    console.log(content) ;
+    let confirmMsg = `Sending emails to ${mails.join()}, with content: ${content}.`
+    if (window.confirm(confirmMsg)) {
+      for(let i = 0 ; i < mails.length ; i ++){
+        if(i !== mails.length -1){
+          window.Email.send({
+            Host : "smtp.gmail.com",
+            Username : "cxapwebfinal@gmail.com",
+            Password : "password1092",
+            To : mails[i],
+            From : "Web1092FinalG24<cxapwebfinal@gmail.com>",
+            Subject : "偽 when2meet 活動成立通知",
+            Body : content
+          })
+        }
+        else{
+          window.Email.send({
+            Host : "smtp.gmail.com",
+            Username : "cxapwebfinal@gmail.com",
+            Password : "password1092",
+            To : mails[i],
+            From : "Web1092FinalG24<cxapwebfinal@gmail.com>",
+            Subject : "偽 when2meet 活動成立通知",
+            Body : content
+          })
+          .then(
+            message => alert(message)
+          );
+        }
+
+      }
+    }
   }
 
   const getUserTime =  async (code) => {
@@ -192,9 +245,57 @@ function MainPage({ setStart, user, setUser }) {
 
     //setAllAvailableTime(available_list)
     //setNameList(name_list)
+    console.log(time_list)
+
+    let temp = []
+    let all_len = name_list.length ;
+
+
+    for(let i = 0 ; i < available_list.length ;  i++){
+
+      let startD = time_list[0].split("-");
+      let startD2 = new Date(startD[0]+ "/" + startD[1] + "/" + startD[2])
+      startD2.setDate(startD2.getDate() + i + 1);
+      startD2 = startD2.toISOString().substring(0, 10) ;
+      console.log(startD2) ;
+
+      let startT = parseInt(time_list[2].split(":")[0]) + parseInt(time_list[2].split(":")[1])/60 ;
+      // console.log(startT);
+
+      for (let j = 0 ; j < available_list[i].length ; j++){
+        let cnt = 0 ;
+        while(j + cnt < available_list[i].length && available_list[i][j+cnt].length === all_len){
+          // console.log(j+cnt) ;
+          cnt = cnt + 1 ;
+        }
+
+        if(cnt !== 0){
+
+          let fromM = (startT + 0.5 * j) % 1 * 60;
+          if(fromM === 0){fromM = "00"}
+          let fromT  = parseInt(startT + 0.5 * j ) + ":" + fromM;
+
+          let toM = (startT + 0.5 * j + cnt * 0.5) % 1 * 60;
+          if(toM === 0){toM = "00"}
+          let toT =  parseInt(startT + 0.5 * j + cnt * 0.5) + ":" + toM;
+
+          console.log(startD2 + ", " + fromT + " ~ " + toT) ;
+          temp.push(startD2 + ", " + fromT + " ~ " + toT) ;
+        }
+
+        j = j + cnt ;
+      }
+
+    }
+
+    console.log(temp) ;
+
+
     setResult({
       availableList: available_list,
-      nameList: name_list
+      nameList: name_list,
+      result1: temp,
+      //result2: temp2
     })
 
     console.log(available_list, name_list, time_list);
@@ -217,9 +318,6 @@ function MainPage({ setStart, user, setUser }) {
 
   const openViewPage = (event) => {
     setViewEvent(event)
-    //console.log(event.code)
-    //getAllTime(event.code)
-    //setPage('view')
   }
   const openCreateModal = () => {
     closeJoinModal()
@@ -293,8 +391,11 @@ function MainPage({ setStart, user, setUser }) {
           setTempAvailableTime={setTempAvailableTime}/> :
           page === 'view' ?
           <ViewPage
+          username={user.username}
           viewEvent={viewEvent}
           handleBack={handleBack}
+          handleFilter={handleFilter}
+          handleNotify={handleNotify}
           result={result}/> :
           null
         }

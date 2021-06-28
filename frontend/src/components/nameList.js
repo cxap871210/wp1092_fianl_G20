@@ -1,7 +1,7 @@
 export default function NameList ({list}) {
   return (
     <div className='name-list'>
-      <div>Available Members:</div>
+      <h4>Available Attendents:</h4>
       <div>
         {
           list.a.length === 0 ?
@@ -13,7 +13,7 @@ export default function NameList ({list}) {
           ))
         }
       </div>
-      <div>Unavailable Members:</div>
+      <h4>Unavailable Attendents:</h4>
       <div>
         {
           list.u.length === 0 ?

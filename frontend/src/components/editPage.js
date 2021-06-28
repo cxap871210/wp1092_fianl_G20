@@ -11,7 +11,7 @@ export default function EditPage ({ curEvent, handleBack, handleClear, handleSub
           <i class="fas fa-undo-alt"></i>
         </span>
         <div className='editPage-title'>
-          Select your available times for "{curEvent.name}"
+          <h3>Select your available times for "{curEvent.name}"</h3>
         </div>
       </div>
       <div className='calendar'>

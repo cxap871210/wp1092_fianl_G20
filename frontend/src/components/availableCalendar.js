@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import moment from 'moment'
 import ScheduleSelector from 'react-schedule-selector'
 
-export default function AvailableCalendar ({ viewEvent, allAvailableTime, getUserList }) {
+export default function AvailableCalendar ({ viewEvent, allAvailableTime, getUserList, setCurBlock }) {
   const color1 = [22, 160, 166]
   const color2 = [196, 245, 247]
   let max = 0
@@ -45,6 +45,9 @@ export default function AvailableCalendar ({ viewEvent, allAvailableTime, getUse
   const handleChange = newSchedule => {
     //console.log(newSchedule)
     const {col_id, row_id} = timeToIndex(newSchedule[0])
+    const time1 = moment(newSchedule[0]).format('YYYY-MM-DD HH:mm')
+    const time2 = moment(newSchedule[0]).add(30, 'm').format('HH:mm')
+    setCurBlock(`${time1} ~ ${time2}`)
     getUserList(col_id, row_id)
     //setSchedule(newSchedule)
   }
