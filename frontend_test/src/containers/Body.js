@@ -53,14 +53,14 @@ const Body = () => {
   const [endDate, setEndDate] = useState('');
   const [endTime, setEndTime] = useState('');
 
-  const [result, setResult] = useState([]);
-  const [result2, setResult2] = useState([]);
-  const [filterDisplay, setFilterDisplay] = useState([]);
-  const [actNames, setActNames] = useState([]);
-  const [actTimes, setActTimes] = useState([]);
+  
+  
+  
 
   const [timeInterval, setTimeInterval] = useState(0) ;
   const [mustAppear, setMustAppear] = useState("");
+  const [minPeople, setMinPeople] = useState(0);
+  const [filterDisplay, setFilterDisplay] = useState([]);
 
 
   const [T0_0, setT0_0] = useState();
@@ -179,100 +179,6 @@ const Body = () => {
 
     console.log(available_list, name_list, time_list);
 
-
-    let temp = []
-    let all_len = name_list.length ;
-
-
-    for(let i = 0 ; i < available_list.length ;  i++){
-
-      let startD = time_list[0].split("-");
-      let startD2 = new Date(startD[0]+ "/" + startD[1] + "/" + startD[2])
-      startD2.setDate(startD2.getDate() + i + 1);
-      startD2 = startD2.toISOString().substring(0, 10) ;
-      console.log(startD2) ;
-
-      let startT = parseInt(time_list[2].split(":")[0]) + parseInt(time_list[2].split(":")[1])/60 ;
-      // console.log(startT);
-
-      for (let j = 0 ; j < available_list[i].length ; j++){
-        let cnt = 0 ;
-        while(j + cnt < available_list[i].length && available_list[i][j+cnt].length === all_len){
-          // console.log(j+cnt) ;
-          cnt = cnt + 1 ;
-        }
-
-        if(cnt !== 0){
-
-          let fromM = (startT + 0.5 * j) % 1 * 60;
-          if(fromM === 0){fromM = "00"}
-          let fromT  = parseInt(startT + 0.5 * j ) + ":" + fromM;
-
-          let toM = (startT + 0.5 * j + cnt * 0.5) % 1 * 60;
-          if(toM === 0){toM = "00"}
-          let toT =  parseInt(startT + 0.5 * j + cnt * 0.5) + ":" + toM;
-
-          console.log(startD2 + ", " + fromT + " ~ " + toT) ;
-          temp.push(startD2 + ", " + fromT + " ~ " + toT) ;
-        }
-
-        j = j + cnt ;
-      }
-
-    }
-
-    console.log(temp) ;
-    setResult(temp) ;
-
-    if(all_len > 1){
-      let temp2 = [];
-
-      for(let i = 0 ; i < available_list.length ;  i++){
-
-        let startD = time_list[0].split("-");
-        let startD2 = new Date(startD[0]+ "/" + startD[1] + "/" + startD[2])
-        startD2.setDate(startD2.getDate() + i + 1);
-        startD2 = startD2.toISOString().substring(0, 10) ;
-        console.log(startD2) ;
-
-        let startT = parseInt(time_list[2].split(":")[0]) + parseInt(time_list[2].split(":")[1])/60 ;
-        // console.log(startT);
-
-        for (let j = 0 ; j < available_list[i].length ; j++){
-          let cnt = 0 ;
-          while(j + cnt < available_list[i].length && available_list[i][j+cnt].length >== all_len - 1){
-            // console.log(j+cnt) ;
-            cnt = cnt + 1 ;
-          }
-
-          if(cnt !== 0){
-
-            let fromM = (startT + 0.5 * j) % 1 * 60;
-            if(fromM === 0){fromM = "00"}
-            let fromT  = parseInt(startT + 0.5 * j ) + ":" + fromM;
-
-            let toM = (startT + 0.5 * j + cnt * 0.5) % 1 * 60;
-            if(toM === 0){toM = "00"}
-            let toT =  parseInt(startT + 0.5 * j + cnt * 0.5) + ":" + toM;
-
-            console.log(startD2 + ", " + fromT + " ~ " + toT) ;
-            temp2.push(startD2 + ", " + fromT + " ~ " + toT) ;
-          }
-
-          j = j + cnt ;
-        }
-
-      }
-
-      console.log(temp2) ;
-      setResult2(temp2) ;
-
-    }
-
-
-
-    // handleFilter() ;
-
   };
 
   const handleFilter = async () => {
@@ -283,45 +189,46 @@ const Body = () => {
 
 
     let temp = []
-    let all_len = name_list.length ;
-
+    
     let MA = mustAppear.split(",") ;
-    if (MA.length === 1 && MA[0] === ''){MA = name_list} ;
-    console.log(MA) ;
-
+    // console.log(MA) ;
+  
 
 
     for(let i = 0 ; i < available_list.length ;  i++){
 
       let startD = time_list[0].split("-");
       let startD2 = new Date(startD[0]+ "/" + startD[1] + "/" + startD[2])
-      startD2.setDate(startD2.getDate() + i + 1);
+      startD2.setDate(startD2.getDate() + i + 1); 
       startD2 = startD2.toISOString().substring(0, 10) ;
       console.log(startD2) ;
 
       let startT = parseInt(time_list[2].split(":")[0]) + parseInt(time_list[2].split(":")[1])/60 ;
       // console.log(startT);
-
+      
 
       for (let j = 0 ; j < available_list[i].length ; j++){
         let cnt = 0 ;
         let fine = true;
-        while(j + cnt < available_list[i].length && fine){
+        while(j + cnt < available_list[i].length && available_list[i][j+cnt].length >= minPeople && fine){
           // console.log(j+cnt) ;
-          console.log(MA.length) ;
-          for(let k = 0 ; k < MA.length ; k++){
-            if(available_list[i][j+cnt].includes(MA[k]) === false){
-              fine = false ;
+          // console.log(MA.length) ;
+          if(MA.length !== 1 || MA[0] !== ""){
+            for(let k = 0 ; k < MA.length ; k++){
+              if(available_list[i][j+cnt].includes(MA[k]) === false){
+                fine = false ;
+                break ;
+              }
             }
           }
           if(fine === true){
             cnt = cnt + 1 ;
           }
         }
-
-
+        
+      
         if(cnt !== 0 && cnt >= timeInterval * 2){
-
+          
           let fromM = (startT + 0.5 * j) % 1 * 60;
           if(fromM === 0){fromM = "00"}
           let fromT  = parseInt(startT + 0.5 * j ) + ":" + fromM;
@@ -333,7 +240,7 @@ const Body = () => {
           console.log(startD2 + ", " + fromT + " ~ " + toT) ;
           temp.push(startD2 + ", " + fromT + " ~ " + toT) ;
         }
-
+        
         j = j + cnt ;
       }
 
@@ -345,7 +252,6 @@ const Body = () => {
   };
 
 
-
   const handleEmail = async () => {
 
     const {
@@ -355,8 +261,8 @@ const Body = () => {
     // console.log(mails);
 
     let content = "The arrangement of activity [ " + actName + " ] is done! <br><br>Available times are as below:<br><br>";
-    for(let i = 0 ; i < result.length ; i++){
-      content = content + result[i] + "<br>" ;
+    for(let i = 0 ; i < filterDisplay.length ; i++){
+      content = content + filterDisplay[i] + "<br>" ;
     }
 
     // console.log(content) ;
@@ -674,6 +580,14 @@ const Body = () => {
           style={{ flex: 1 }}
         />
         <h3>|</h3>
+        <h3>Min people:</h3>
+        <TextField  
+          placeholder="Min people"
+          value={minPeople}
+          onChange={handleChange(setMinPeople)}
+          style={{ flex: 1 }}
+        />
+        <h3>|</h3>
         <TextField
           placeholder="Only Must Appear (Ray,Ben ...)"
           value={mustAppear}
@@ -694,14 +608,6 @@ const Body = () => {
       </Row>
 
       <ContentPaper variant="outlined">
-        <h2>results for all:</h2>
-        {result.map((e) => (
-          <h3>{e}</h3>
-        ))}
-        <h2>results for one absence:</h2>
-        {result2.map((e) => (
-          <h3>{e}</h3>
-        ))}
         <h2>filter:</h2>
         {filterDisplay.map((e) => (
           <h3>{e}</h3>
