@@ -6,12 +6,17 @@ export default function ViewPage ({ username, viewEvent, handleBack, handleFilte
   const [list, setList] = useState(null)
   const [showList, setShowList] = useState(false)
   const [curBlock, setCurBlock] = useState('')
+
   const showNoteButton = username === viewEvent.creator
   const memberCnt = result.nameList.length
+  const nameListBool_arr = []
   const memberCnt_arr = [] //最少出席人數
   for (let i = memberCnt; i > 0; i--) {
     memberCnt_arr.push(i)
+    nameListBool_arr.push(true)
   }
+
+  const [initCheckBox, setInitCheckBox] = useState(nameListBool_arr)
 
   const hourCnt = Number(viewEvent.end_time.split(":")[0]) - Number(viewEvent.start_time.split(":")[0])
   const hourCnt_arr = []
@@ -99,9 +104,16 @@ export default function ViewPage ({ username, viewEvent, handleBack, handleFilte
           </div>
           <div className='filter-text-wrapper'>
             Attendents who must show up:
-            {result.nameList.map((name) => (
+            {result.nameList.map((name, i) => (
               <span className='mustShow-names'>
-                <input className='names-checkbox' type="checkbox" id={name} name={name} value={name} checked/>
+                <input
+                className='names-checkbox'
+                type="checkbox"
+                id={name}
+                name={name}
+                value={name}
+                checked={initCheckBox[i]}
+                onClick={() => {initCheckBox[i] = !initCheckBox[i]}}/>
                 <label for={name}>{name}</label>
               </span>
             ))}
