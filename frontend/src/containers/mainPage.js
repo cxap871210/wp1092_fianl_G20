@@ -127,7 +127,7 @@ function MainPage({ setStart, user, setUser }) {
             Password : "password1092",
             To : del_mails[i],
             From : "Web1092FinalG24<cxapwebfinal@gmail.com>",
-            Subject : "偽 when2meet 活動取消通知",
+            Subject : `Notification: Event [${del_actName}] Cancelled on MeetUp`,
             Body : content
           })
         }
@@ -138,7 +138,7 @@ function MainPage({ setStart, user, setUser }) {
             Password : "password1092",
             To : del_mails[i],
             From : "Web1092FinalG24<cxapwebfinal@gmail.com>",
-            Subject : "偽 when2meet 活動取消通知",
+            Subject : `Notification: Event [${del_actName}] Cancelled on MeetUp`,
             Body : content
           })
           .then(
@@ -151,9 +151,6 @@ function MainPage({ setStart, user, setUser }) {
   };
 
   const handleDelete = async (event) => {
-    /*const [del_mails, setDel_mails] = useState([]);
-    const [del_actName, setDel_actName] = useState("");
-    const [del_creator, setDel_creator] = useState("");*/
     //delete event
     const attendCode = event.code
     if (window.confirm(`Deleting event [${event.name}].`)) {
@@ -318,13 +315,13 @@ function MainPage({ setStart, user, setUser }) {
     // console.log(mails);
 
     let content = "The arrangement of event [ " + actName + " ] is done! <br><br>Available times are as below:<br><br>";
-    for(let i = 0 ; i < result.result1.length ; i++){
-      content = content + result.result1[i] + "<br>" ;
+    for(let i = 0 ; i < filterDisplay.length ; i++){
+      content = content + filterDisplay[i] + "<br>" ;
     }
 
     let content1 = "The arrangement of event [ " + actName + " ] is done! \nAvailable times are as below:\n";
-    for(let i = 0 ; i < result.result1.length ; i++){
-      content1 = content1 + result.result1[i] + "\n" ;
+    for(let i = 0 ; i < filterDisplay.length ; i++){
+      content1 = content1 + filterDisplay[i] + "\n" ;
     }
 
     console.log(content) ;
@@ -338,7 +335,7 @@ function MainPage({ setStart, user, setUser }) {
             Password : "password1092",
             To : mails[i],
             From : "Web1092FinalG24<cxapwebfinal@gmail.com>",
-            Subject : "偽 when2meet 活動成立通知",
+            Subject : `Notification: Event [${actName}] Established on MeetUp`,
             Body : content
           })
         }
@@ -349,7 +346,7 @@ function MainPage({ setStart, user, setUser }) {
             Password : "password1092",
             To : mails[i],
             From : "Web1092FinalG24<cxapwebfinal@gmail.com>",
-            Subject : "偽 when2meet 活動成立通知",
+            Subject : `Notification: Event [${actName}] Established on MeetUp`,
             Body : content
           })
           .then(
@@ -457,6 +454,8 @@ function MainPage({ setStart, user, setUser }) {
       result1: temp,
       //result2: temp2
     })
+
+    setFilterDisplay(temp)
 
     console.log(available_list, name_list, time_list);
   }

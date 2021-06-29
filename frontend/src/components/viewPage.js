@@ -115,10 +115,6 @@ export default function ViewPage ({ username, viewEvent, handleBack, handleFilte
         <div className='viewPage-filter'>
           <div className='filter-result'>
           {
-            filterDisplay === []?
-            result.result1.map((line) => (
-              <div>{line}</div>
-            )):
             filterDisplay.map((line) => (
               <div>{line}</div>
             ))
