@@ -59,7 +59,7 @@ __瀏覽器限制：請使用 Chrome、Edge、Firefox__
 
 加密套件：bcrypt ([https://www.npmjs.com/package/bcrypt](https://www.npmjs.com/package/bcrypt))
 
-時間、日期處理函式庫：Moment.js (https://momentjs.com)
+日期與時間處理函式庫：Moment.js (https://momentjs.com)
 
 日期與時間選擇器 component：react-datepicker ([https://github.com/Hacker0x01/react-datepicker](https://github.com/Hacker0x01/react-datepicker))
 
