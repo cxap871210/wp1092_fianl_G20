@@ -2,7 +2,7 @@
 .meetApp {
   color: white;
   font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-  font-size: 20px;
+  font-size: 12px;
 }
 
 .paypal-button {
@@ -42,11 +42,11 @@ input {
 
 .icon-button {
   cursor: pointer;
-  font-size: 16px;
+  font-size: 8px;
 }
 
 .icon-button:hover {
-  font-size: 20px;
+  font-size: 13px;
 }
 
 .light-text {
@@ -430,7 +430,7 @@ select {
   color: #474747;
   position: fixed;
   top: 20vh;
-  left: 40vw;
+  left: 35vw;
   z-index: 1;
   /*width: 100%;
   height: 100%;*/
@@ -484,6 +484,12 @@ select {
   margin-bottom: 20px;
 }
 
+.createModal-input {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .createModal-time-input {
   display: flex;
   flex-direction: column;
@@ -504,8 +510,8 @@ select {
 #event-code {
   background-color: #ffffff;
   border-radius: 5px;
-  width: 110px;
-  font-size: 18px;
+  width: 80px;
+  font-size: 10px;
   text-align: center;
 }
 
