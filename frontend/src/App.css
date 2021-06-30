@@ -81,6 +81,11 @@ input {
   flex-direction: column;
 }
 
+.signIn-input {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
 
 .signIn-button-wrapper {
   display: flex;
