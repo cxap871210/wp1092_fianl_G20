@@ -28,6 +28,7 @@ function MainPage({ setStart, user, setUser }) {
   }
   const handleBack = () => {
     setPage('main')
+    handleGetActivity()
   }
 
   const handleGetActivity = async () => {
