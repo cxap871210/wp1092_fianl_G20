@@ -22,7 +22,7 @@ function MainPage({ setStart, user, setUser }) {
   const [filterDisplay, setFilterDisplay] = useState([]);
 
   const handleSignOut = () => {
-    console.log('signout')
+    //console.log('signout')
     setUser(null)
     setStart(true)
   }
@@ -43,9 +43,9 @@ function MainPage({ setStart, user, setUser }) {
     }))
   };
 
-  useEffect(() => {
+  /*useEffect(() => {
     handleGetActivity()
-  })
+  })*/
 
   const handleCreate = async (activityName, startDate, startTime, endDate, endTime) => {
     //create new event
@@ -69,12 +69,12 @@ function MainPage({ setStart, user, setUser }) {
         endTime
       });
 
-      console.log(status);
+      //console.log(status);
       if (status) {
         if (window.confirm(`You are creating an event [${activityName}], starting on ${startDate}, ending on ${endDate}, from ${startTime} to ${endTime} each day. `))
         closeCreateModal()
-        console.log('created!')
-        //handleGetActivity()
+        //console.log('created!')
+        handleGetActivity()
       }
       else {
         alert("Something went wrong!")
@@ -94,15 +94,17 @@ function MainPage({ setStart, user, setUser }) {
         attendCode,
       });
 
-      console.log(status);
+      //console.log(status);
       if (status) {
-        window.confirm(`Successfully joined event with code ${attendCode}`)
+        alert(`Successfully joined event with code ${attendCode}`)
         //join event
         closeJoinModal()
-        console.log('joined')
+        //console.log('joined')
+        handleGetActivity()
       }
       else {
         alert("Something went wrong, please try again.")
+        closeJoinModal()
       }
     }
   }
@@ -110,7 +112,7 @@ function MainPage({ setStart, user, setUser }) {
     var copyText = document.getElementById('event-code')
     copyText.select()
     document.execCommand("copy")
-    console.log('copied!')
+    //console.log('copied!')
   }
 
   const handleDeleteEmail = async (del_mails, del_actName, del_creator) => {
@@ -165,7 +167,8 @@ function MainPage({ setStart, user, setUser }) {
       });
 
       if (status) {
-        window.confirm(`Deleted event [${event.name}].`)
+        alert(`Deleted event [${event.name}].`)
+        handleGetActivity()
         if (window.confirm(`Do you want to send an email to all attendents of ${event.name} to notify that the event was deleted?`)) {
           handleDeleteEmail(mails, actName, creator_name)
         }
@@ -173,14 +176,14 @@ function MainPage({ setStart, user, setUser }) {
 
       //console.log(status);
     }
-    console.log('delete')
+    //console.log('delete')
   }
 
   const handleQuit = async (event) => {
     const attendCode = event.code
     const name = user.username
     if (window.confirm(`Quitting [${event.name}].`)) {
-      console.log('quit')
+      //console.log('quit')
       const {
         data: { status },
       } = await axios.post('/api/quit', {
@@ -188,18 +191,19 @@ function MainPage({ setStart, user, setUser }) {
         attendCode,
       });
       if (status) {
-        window.confirm(`You left [${event.name}].`)
+        alert(`You left [${event.name}].`)
+        handleGetActivity()
       }
     }
 
   }
   const handleClear = () => {
-    console.log('clear')
+    //console.log('clear')
     //setAvailableTime([])
   }
   const handleSubmit = async () => {
     //submit new user timeout
-    console.log(tempAvailableTime)
+    //console.log(tempAvailableTime)
     //setAvailableTime(tempAvailableTime)
     const time = tempAvailableTime
     const name = user.username
@@ -213,7 +217,7 @@ function MainPage({ setStart, user, setUser }) {
     });
     if (status) {
       //setPage('view')
-      console.log('submit')
+      //console.log('submit')
       openViewPage(curEvent)
     } else {
       alert("Something went wrong, please try again.")
@@ -221,7 +225,7 @@ function MainPage({ setStart, user, setUser }) {
   }
 
   const handleFilter = async () => {
-    console.log(result.result1)
+    //console.log(result.result1)
     var e = document.getElementById("minMemCnt")
     var minPeople = e.value
     var f = document.getElementById("minHourCnt")
@@ -291,7 +295,7 @@ function MainPage({ setStart, user, setUser }) {
           if(toM === 0){toM = "00"}
           let toT =  parseInt(startT + 0.5 * j + cnt * 0.5) + ":" + toM;
 
-          console.log(startD2 + ", " + fromT + " ~ " + toT) ;
+          //console.log(startD2 + ", " + fromT + " ~ " + toT) ;
           temp.push(startD2 + ", " + fromT + " ~ " + toT) ;
         }
 
@@ -300,7 +304,7 @@ function MainPage({ setStart, user, setUser }) {
 
     }
 
-    console.log(temp) ;
+    //console.log(temp) ;
     setFilterDisplay(temp) ;
 
     ///
@@ -324,7 +328,7 @@ function MainPage({ setStart, user, setUser }) {
       content1 = content1 + filterDisplay[i] + "\n" ;
     }
 
-    console.log(content) ;
+    //console.log(content) ;
     let confirmMsg = `Sending emails to:\n${mails.join('\n')}\nContent of mail:\n ${content1}`
     if (window.confirm(confirmMsg)) {
       for(let i = 0 ; i < mails.length ; i ++){
@@ -402,7 +406,7 @@ function MainPage({ setStart, user, setUser }) {
 
     //setAllAvailableTime(available_list)
     //setNameList(name_list)
-    console.log(time_list)
+    //console.log(time_list)
 
     let temp = []
     let all_len = name_list.length ;
@@ -414,7 +418,7 @@ function MainPage({ setStart, user, setUser }) {
       let startD2 = new Date(startD[0]+ "/" + startD[1] + "/" + startD[2])
       startD2.setDate(startD2.getDate() + i + 1);
       startD2 = startD2.toISOString().substring(0, 10) ;
-      console.log(startD2) ;
+      //console.log(startD2) ;
 
       let startT = parseInt(time_list[2].split(":")[0]) + parseInt(time_list[2].split(":")[1])/60 ;
       // console.log(startT);
@@ -436,7 +440,7 @@ function MainPage({ setStart, user, setUser }) {
           if(toM === 0){toM = "00"}
           let toT =  parseInt(startT + 0.5 * j + cnt * 0.5) + ":" + toM;
 
-          console.log(startD2 + ", " + fromT + " ~ " + toT) ;
+          //console.log(startD2 + ", " + fromT + " ~ " + toT) ;
           temp.push(startD2 + ", " + fromT + " ~ " + toT) ;
         }
 
@@ -445,7 +449,7 @@ function MainPage({ setStart, user, setUser }) {
 
     }
 
-    console.log(temp) ;
+    //console.log(temp) ;
 
 
     setResult({
@@ -457,7 +461,7 @@ function MainPage({ setStart, user, setUser }) {
 
     setFilterDisplay(temp)
 
-    console.log(available_list, name_list, time_list);
+    //console.log(available_list, name_list, time_list);
   }
 
   useEffect(() => {
@@ -469,8 +473,8 @@ function MainPage({ setStart, user, setUser }) {
 
   useEffect(() => {
     if (result !== null & viewEvent !== null) {
-      console.log(result.availableList)
-      console.log(result.nameList)
+      //console.log(result.availableList)
+      //console.log(result.nameList)
       setPage('view')
     }
   }, [result])
@@ -488,6 +492,7 @@ function MainPage({ setStart, user, setUser }) {
   const closeCreateModal = () => {
     const modal = document.querySelector("#createModal")
     modal.style.display = 'none'
+    document.getElementById('eventName').value = ''
   }
   const openJoinModal = () => {
     closeShareModal()
@@ -498,6 +503,7 @@ function MainPage({ setStart, user, setUser }) {
   const closeJoinModal = () => {
     const modal = document.querySelector("#joinModal")
     modal.style.display = 'none'
+    document.getElementById('eventCode').value = ''
   }
   const openShareModal = (event) => {
     closeJoinModal()

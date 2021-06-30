@@ -24,7 +24,7 @@ function StartPage({ setStart, setUser }) {
         data: { status, activities },
       } = await axios.get('/api/sign-in', { params: { name, password } });
 
-      console.log(status, activities);
+      //console.log(status, activities);
       if (status) {
         ///if success
         const curUser = {
@@ -55,10 +55,10 @@ function StartPage({ setStart, setUser }) {
     else {
       ///if success
       const name = username
-      console.log('sign up')
+      //console.log('sign up')
 
       if (window.confirm(`You are signing up as "${username}" with email: ${email}.`)) {
-        console.log('sign up')
+        //console.log('sign up')
         const {
           data: { status },
         } = await axios.post('/api/sign-up', {
@@ -66,7 +66,7 @@ function StartPage({ setStart, setUser }) {
           password,
           email,
         });
-        console.log(status);
+        //console.log(status);
 
         if (status) {
           setSignIn(true)

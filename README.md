@@ -8,7 +8,7 @@ https://www.youtube.com/watch?v=LwnsKW9VceA
 ### 服務內容  
 <!-- 參考與優化現有when2meet，主要功能為安排活動時間，參與活動的每位使用者可以輸入自己有空的時間，經由系統統整，找出最適合的活動時間。同時增加更貼近使用者需求的功能，比如：建立帳戶資料、filter排序、發送email通知等，並且改良UI/UX，提升使用者的體驗。 -->
 參考與優化現有when2meet的功能，是用來安排活動時間的工具，參與活動的每位使用者可以輸入自己有空的時間，經由系統統整，找出最適合的活動時間。  
-  
+
 實際功能如下：  
 1. 註冊、登入  
   使用者可利用帳號、密碼及電子郵件信箱註冊，並在每次登入時看到所有參與和建立的活動，方便管理。
@@ -67,14 +67,28 @@ __瀏覽器限制：請使用 Chrome、Edge、Firefox__
 
 ### 每位組員之負責項目
 <!-- only in README -->
-黃季昕：前端、撰寫報告  
-盧冠均：後端、密碼加密、deploy  
-陳柄瑞：後端、錄製 Demo  
+黃季昕：  
+- 前端：建立介面
+- 撰寫報告
+
+盧冠均：  
+- 後端：建立 Mongoose Schema
+- 後端 API：sign-up, create-activity, edit-time, send-time, result
+- 後端：密碼加密 (使用 bcrypt 套件)
+- Deploy 前後端 (使用 Heroku 雲端服務平台)  
+
+陳柄瑞：  
+- 後端 API：sign-in, get-activity, attend, get-mails, get-delete-mails, delete, quit
+- 前端寄送 Email 功能函數 （handleEmail, handleDeleteEmail）
+- 前端結果篩選 Filter 功能函數 (handleFilter)
+- 串接測試前端介面
+- 錄製 Demo
 
 ### 專題製作心得
 黃季昕：  
 盧冠均：  
 陳柄瑞：  
+
 
 <!--
 安裝方式/服務內容/心得/deploy連結/demo連結
