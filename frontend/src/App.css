@@ -9,8 +9,8 @@
   position: fixed;
   bottom: 0px;
   left: 0px;
-  margin-top: 30px;
-  color: #787878
+  margin: 30px 10px 5px 5px;
+  color: #787878;
 }
 
 input {
