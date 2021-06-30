@@ -58,6 +58,19 @@ export default function ViewPage ({ username, viewEvent, handleBack, handleFilte
     }
   }, list)
 
+  const updateCheckbox = (i) => {
+    let newCheckBox = []
+    initCheckBox.forEach((item, j) => {
+      if (j === i) {
+        newCheckBox.push(!item)
+      } else {
+        newCheckBox.push(item)
+      }
+    })
+    setInitCheckBox(newCheckBox)
+
+  }
+
   return (
     <div className='viewPage'>
       <div className='viewPage-wrapper'>
@@ -113,7 +126,7 @@ export default function ViewPage ({ username, viewEvent, handleBack, handleFilte
                 name={name}
                 value={name}
                 checked={initCheckBox[i]}
-                onClick={() => {initCheckBox[i] = !initCheckBox[i]}}/>
+                onClick={() => updateCheckbox(i)}/>
                 <label for={name}>{name}</label>
               </span>
             ))}
