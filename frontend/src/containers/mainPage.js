@@ -129,7 +129,7 @@ function MainPage({ setStart, user, setUser }) {
             Username : "cxapwebfinal@gmail.com",
             Password : "password1092",
             To : del_mails[i],
-            From : "Web1092FinalG24<cxapwebfinal@gmail.com>",
+            From : "Web1092FinalG20<cxapwebfinal@gmail.com>",
             Subject : `Notification: Event [${del_actName}] Cancelled on MeetUp`,
             Body : content
           })
@@ -140,7 +140,7 @@ function MainPage({ setStart, user, setUser }) {
             Username : "cxapwebfinal@gmail.com",
             Password : "password1092",
             To : del_mails[i],
-            From : "Web1092FinalG24<cxapwebfinal@gmail.com>",
+            From : "Web1092FinalG20<cxapwebfinal@gmail.com>",
             Subject : `Notification: Event [${del_actName}] Cancelled on MeetUp`,
             Body : content
           })
@@ -339,7 +339,7 @@ function MainPage({ setStart, user, setUser }) {
             Username : "cxapwebfinal@gmail.com",
             Password : "password1092",
             To : mails[i],
-            From : "Web1092FinalG24<cxapwebfinal@gmail.com>",
+            From : "Web1092FinalG20<cxapwebfinal@gmail.com>",
             Subject : `Notification: Event [${actName}] Established on MeetUp`,
             Body : content
           })
@@ -350,7 +350,7 @@ function MainPage({ setStart, user, setUser }) {
             Username : "cxapwebfinal@gmail.com",
             Password : "password1092",
             To : mails[i],
-            From : "Web1092FinalG24<cxapwebfinal@gmail.com>",
+            From : "Web1092FinalG20<cxapwebfinal@gmail.com>",
             Subject : `Notification: Event [${actName}] Established on MeetUp`,
             Body : content
           })
