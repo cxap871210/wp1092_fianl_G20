@@ -74,6 +74,8 @@ function StartPage({ setStart, setUser }) {
           setEmail('')
           setPassword('')
           setPassword2('')
+        } else {
+          alert('This username has already been used, please use another name.')
         }
       }
     }

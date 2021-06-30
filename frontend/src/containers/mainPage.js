@@ -55,10 +55,11 @@ function MainPage({ setStart, user, setUser }) {
     startTime = moment(startTime).format('HH:mm')
     endTime = moment(endTime).format('HH:mm')
     const name = user.username
-    if (!activityName || !startDate || !startTime || !endDate || !endTime) {
+    if (!activityName || startDate === 'Invalid date' || startTime === 'Invalid date' || endDate === 'Invalid date' || endTime === 'Invalid date') {
       alert("All fields must be filled to create an event.")
     }
     else {
+      //console.log(startTime)
       const {
         data: { status },
       } = await axios.post('/api/create-activity', {

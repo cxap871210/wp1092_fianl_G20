@@ -16,7 +16,7 @@ export default function ViewPage ({ username, viewEvent, handleBack, handleFilte
     nameListBool_arr.push(true)
   }
 
-  const [initCheckBox, setInitCheckBox] = useState(nameListBool_arr)
+  //const [initCheckBox, setInitCheckBox] = useState(nameListBool_arr)
 
   const hourCnt = Number(viewEvent.end_time.split(":")[0]) - Number(viewEvent.start_time.split(":")[0])
   const hourCnt_arr = []
@@ -58,7 +58,7 @@ export default function ViewPage ({ username, viewEvent, handleBack, handleFilte
     }
   }, list)
 
-  const updateCheckbox = (i) => {
+  /*const updateCheckbox = (i) => {
     let newCheckBox = []
     initCheckBox.forEach((item, j) => {
       if (j === i) {
@@ -69,7 +69,7 @@ export default function ViewPage ({ username, viewEvent, handleBack, handleFilte
     })
     setInitCheckBox(newCheckBox)
 
-  }
+  }*/
 
   return (
     <div className='viewPage'>
@@ -125,8 +125,7 @@ export default function ViewPage ({ username, viewEvent, handleBack, handleFilte
                 id={name}
                 name={name}
                 value={name}
-                checked={initCheckBox[i]}
-                onClick={() => updateCheckbox(i)}/>
+                defaultChecked/>
                 <label for={name}>{name}</label>
               </span>
             ))}
