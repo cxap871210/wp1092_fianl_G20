@@ -36,6 +36,7 @@ https://meetup-ntu.herokuapp.com/
 
 ### 操作方式
 __瀏覽器限制：請使用 Chrome、Edge、Firefox__  
+__建議畫面大小：100%__  
 首先會進入登入頁面，點選左邊「Sign Up」按鈕可進入註冊頁面。填完註冊資料並點選「Sign Up」後，即可回到登入頁面進行登入。登入後進入主畫面，使用者可以點選右下方「Create」按鈕創建活動，或者如果已從其他活動建立者獲得活動代碼，點選「Join」按鈕、輸入活動代碼，即可加入活動。活動列表上每個活動的右方都有四個按鈕，分別為「編輯」、「查看」、「分享」及「退出／刪除」。「編輯」提供使用者點選活動方便時間；「查看」則是可查看所有活動參與者的時間統整，同時可以輸入特定條件，找出符合條件的最佳時間，活動建立者可以選擇傳送電子郵件通知所有活動參與者；點選「分享」會顯示活動代碼，方便與其他使用者分享活動；「退出／刪除」對活動建立者而言是刪除功能，點選即可刪除活動，並且可以選擇傳送通知給活動參與者，對活動參與者是退出功能，點選即可退出活動。操作完畢後，回到主畫面，點選右上方「Sign Out」即可登出。
 
 ### 安裝方式  
@@ -55,14 +56,10 @@ __瀏覽器限制：請使用 Chrome、Edge、Firefox__
 資料庫：MongoDB
 
 ### 使用之第三方套件、框架、程式碼
-寄信套件：SmtpJS ([https://www.smtpjs.com](https://www.smtpjs.com/))
-
-加密套件：bcrypt ([https://www.npmjs.com/package/bcrypt](https://www.npmjs.com/package/bcrypt))
-
-日期與時間處理函式庫：Moment.js (https://momentjs.com)
-
-日期與時間選擇器 component：react-datepicker ([https://github.com/Hacker0x01/react-datepicker](https://github.com/Hacker0x01/react-datepicker))
-
+寄信套件：SmtpJS ([https://www.smtpjs.com](https://www.smtpjs.com/))  
+加密套件：bcrypt ([https://www.npmjs.com/package/bcrypt](https://www.npmjs.com/package/bcrypt))  
+日期與時間處理函式庫：Moment.js (https://momentjs.com)  
+日期與時間選擇器 component：react-datepicker ([https://github.com/Hacker0x01/react-datepicker](https://github.com/Hacker0x01/react-datepicker))  
 時間表選擇器 component：react-schedule-selector ([https://github.com/bibekg/react-schedule-selector](https://github.com/bibekg/react-schedule-selector))
 
 ### 每位組員之負責項目
