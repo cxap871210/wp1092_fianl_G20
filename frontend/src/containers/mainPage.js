@@ -58,6 +58,9 @@ function MainPage({ setStart, user, setUser }) {
     if (!activityName || startDate === 'Invalid date' || startTime === 'Invalid date' || endDate === 'Invalid date' || endTime === 'Invalid date') {
       alert("All fields must be filled to create an event.")
     }
+    else if (!moment(startTime, 'HH:mm').isBefore(moment(endTime, 'HH:mm'))) {
+      alert("The start time should be earlier than the end time!")
+    }
     else {
       //console.log(startTime)
       const {
@@ -70,8 +73,6 @@ function MainPage({ setStart, user, setUser }) {
         endDate,
         endTime
       });
-
-      //console.log(status);
       if (status) {
         if (window.confirm(`You are creating an event [${activityName}], starting on ${startDate}, ending on ${endDate}, from ${startTime} to ${endTime} each day. `))
         closeCreateModal()
@@ -79,7 +80,7 @@ function MainPage({ setStart, user, setUser }) {
         handleGetActivity()
       }
       else {
-        alert("Something went wrong!")
+        alert("You have already created an event with this name, please use another name.")
       }
     }
 
@@ -97,15 +98,19 @@ function MainPage({ setStart, user, setUser }) {
       });
 
       //console.log(status);
-      if (status) {
+      if (status === true) {
         alert(`Successfully joined event with code ${attendCode}`)
         //join event
         closeJoinModal()
         //console.log('joined')
         handleGetActivity()
       }
+      else if (status === false) {
+        alert("This event does not exist. You might have entered the wrong event code, please check again.")
+        //closeJoinModal()
+      }
       else {
-        alert("Something went wrong, please try again.")
+        alert("You have already joined this event.")
         closeJoinModal()
       }
     }
@@ -121,7 +126,7 @@ function MainPage({ setStart, user, setUser }) {
 
     let content = "The activity [ " + del_actName + " ] has been cancelled by the creator " + del_creator + ". <br>";
     let content1 = "The activity [ " + del_actName + " ] has been cancelled by the creator " + del_creator + ".";
-    let confirmMsg = `Sending emails to:\n${del_mails.join('\n')}\nContent of mail:\n ${content1}`
+    let confirmMsg = `Sending emails to:\n${del_mails.join('\n')}\nContent of the notification:\n ${content1}`
     if (window.confirm(confirmMsg)) {
       for (let i = 0 ; i < del_mails.length ; i ++){
         if(i !== del_mails.length -1){
@@ -222,7 +227,7 @@ function MainPage({ setStart, user, setUser }) {
       //console.log('submit')
       openViewPage(curEvent)
     } else {
-      alert("Something went wrong, please try again.")
+      alert("Sorry, there might be a problem with the server or the database. Please try again.")
     }
   }
 
@@ -331,7 +336,7 @@ function MainPage({ setStart, user, setUser }) {
     }
 
     //console.log(content) ;
-    let confirmMsg = `Sending emails to:\n${mails.join('\n')}\nContent of mail:\n ${content1}`
+    let confirmMsg = `Sending emails to:\n${mails.join('\n')}\nContent of the notification:\n ${content1}`
     if (window.confirm(confirmMsg)) {
       for(let i = 0 ; i < mails.length ; i ++){
         if(i !== mails.length -1){

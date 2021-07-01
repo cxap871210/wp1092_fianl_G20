@@ -89,7 +89,7 @@ router.get('/get-activity', async function (req, res) {
   }
 });
 
-router.post('/attend', async function (req, res) {
+/*router.post('/attend', async function (req, res) {
   const { name, attendCode } = req.body;
   const activity = await db.ActivityModel.findOne({ code: attendCode })
   const user = await db.UserModel.findOne({ name: name });
@@ -97,6 +97,24 @@ router.post('/attend', async function (req, res) {
 
   if(!activity || activity.users.includes(user_id) === true){
     res.send({ status: false });
+  } else{
+    const activity_id = activity._id;
+    await db.ActivityModel.updateOne({ code: attendCode }, { $push: { users: user_id } });
+    await db.UserModel.updateOne({ name: name }, { $push: { activities: activity_id } });
+    res.send({ status: true });
+  }
+});*/
+
+router.post('/attend', async function (req, res) {
+  const { name, attendCode } = req.body;
+  const activity = await db.ActivityModel.findOne({ code: attendCode })
+  const user = await db.UserModel.findOne({ name: name });
+  const user_id = user._id;
+
+  if(!activity){
+    res.send({ status: false });
+  } else if(activity.users.includes(user_id) === true){
+    res.send({ status: "included" });
   } else{
     const activity_id = activity._id;
     await db.ActivityModel.updateOne({ code: attendCode }, { $push: { users: user_id } });
@@ -224,11 +242,11 @@ router.get('/get-mails', async function (req, res) {
 
   let mails = []
   exist.users.map((e) => (
-    mails.push(e.email) 
+    mails.push(e.email)
   ))
 
   res.send({ mails: mails, actName: exist.name});
-  
+
 });
 
 router.get('/get-delete-mails', async function (req, res) {
@@ -245,7 +263,7 @@ router.get('/get-delete-mails', async function (req, res) {
 
 
   res.send({ mails: mails, actName: exist.name, creator_name: creator_name});
-  
+
 });
 
 router.post('/delete', async function (req, res) {
@@ -253,12 +271,12 @@ router.post('/delete', async function (req, res) {
   const activity = await db.ActivityModel.findOne({ code: attendCode }).populate('users') ;
   const activity_id = activity._id;
   // console.log(activity_id) ;
-  
+
   const U = activity.users ;
   for(let i = 0 ; i < U.length ; i++){
     await db.UserModel.updateOne({ name: U[i].name }, { $pull: { activities: activity_id } });
   }
-  
+
   await db.TimeModel.deleteMany({ activity: activity_id });
   await db.ActivityModel.deleteOne({ code: attendCode });
 
@@ -269,7 +287,7 @@ router.post('/delete', async function (req, res) {
 router.post('/quit', async function (req, res) {
   const { name, attendCode } = req.body;
   // console.log(name, attendCode);
-  
+
   const activity = await db.ActivityModel.findOne({ code: attendCode })
   const activity_id = activity._id;
   const user = await db.UserModel.findOne({ name: name });
@@ -278,7 +296,7 @@ router.post('/quit', async function (req, res) {
   await db.ActivityModel.updateOne({ code: attendCode }, { $pull: { users: user_id } });
   await db.UserModel.updateOne({ name: name }, { $pull: { activities: activity_id } });
   await db.TimeModel.deleteOne({ sender: user_id }, {activity: activity_id });
-  
+
   res.send({ status: true });
 
 });
