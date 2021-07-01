@@ -33,6 +33,7 @@ https://www.youtube.com/watch?v=LwnsKW9VceA
 
 ### Deploy 連結
 https://meetup-ntu.herokuapp.com/
+（網管聯絡方式：b07705032@ntu.edu.tw）
 
 ### 操作方式
 __瀏覽器限制：請使用 Chrome、Edge、Firefox__  
